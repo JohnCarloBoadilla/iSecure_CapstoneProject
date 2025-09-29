@@ -259,12 +259,17 @@
 .camera-view {
     flex: 1;
     height: 373px;
-    width: 500px;
+    /* Remove fixed width to allow image to fill container */
+    width: auto;
     align-content: center;
-    padding-left: 200px;
-    background-color: rgb(70, 69, 69);
+    /* Remove background color to avoid dark gray area */
+    background-color: transparent;
     border-radius: 4px;
-   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-left: 0;
 }
 
 .camera-view i {
@@ -274,6 +279,13 @@
     background-color: transparent;
     text-align: justify;
     color: black;
+}
+
+.camera-view img,
+.camera-view video {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
 }
 
 .camera-feed-status {

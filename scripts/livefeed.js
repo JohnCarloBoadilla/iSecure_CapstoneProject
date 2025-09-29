@@ -26,5 +26,5 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   updateLiveFeed();
-  setInterval(updateLiveFeed, 1000);
+  setInterval(updateLiveFeed, 200);
 });

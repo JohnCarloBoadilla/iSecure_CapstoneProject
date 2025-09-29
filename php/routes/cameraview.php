@@ -60,17 +60,26 @@
     </div>
 
 <!-- Camera Feeds with Features merged -->
-<div class="camera-feed">
-    <div class="camera-view" onclick="goToFeature('face')">
-        <img id="face_recog" src="http://localhost:8000/camera/frame" alt="Facial Recognition" style="cursor:pointer;"> Facial Recognition
+    <div class="camera-feed">
+        <div class="camera-view" onclick="goToFeature('face')">
+            <div class="camera-content">
+                <img id="face_recog" src="http://localhost:8000/camera/frame" alt="Facial Recognition" style="cursor:pointer; width: 100%; height: auto;">
+                <span>Facial Recognition</span>
+            </div>
+        </div>
+        <div class="camera-view" onclick="goToFeature('vehicle')">
+            <div class="camera-content">
+                <img id="vehicle_detect" src="http://localhost:8000/camera/frame" alt="Vehicle Recognition" style="cursor:pointer; width: 100%; height: auto;">
+                <span>Vehicle Recognition</span>
+            </div>
+        </div>
+        <div class="camera-view" onclick="goToFeature('ocr')" style="cursor:pointer;">
+            <div class="camera-content">
+                <img id="ocr_id" src="http://localhost:8000/camera/frame" alt="OCR ID" style="width: 100%; height: auto;">
+                <span>OCR ID</span>
+            </div>
+        </div>
     </div>
-    <div class="camera-view" onclick="goToFeature('vehicle')">
-        <img id="vehicle_detect" src="http://localhost:8000/camera/frame" alt="Vehicle Recognition" style="cursor:pointer;"> Vehicle Recognition
-    </div>
-    <div class="camera-view" onclick="goToFeature('ocr')" style="cursor:pointer;">
-        <img id="ocr_id" src="http://localhost:8000/camera/frame" alt="OCR ID"> OCR ID
-    </div>
-</div>
 
 <div class="camera-feed-status">
     <div class="stats-container">

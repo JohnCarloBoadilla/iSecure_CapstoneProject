@@ -18,4 +18,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ---- Camera frames are now streaming via MJPEG ---- */
+
+  function refreshCameraFeed(imgId, url) {
+    const img = document.getElementById(imgId);
+    if (!img) return;
+    setInterval(() => {
+      img.src = url + '?t=' + new Date().getTime();
+    }, 150); // refresh every 150ms
+  }
+
+  refreshCameraFeed('face_recog', 'http://localhost:8000/camera/frame');
+  refreshCameraFeed('vehicle_detect', 'http://localhost:8000/camera/frame');
+  refreshCameraFeed('ocr_id', 'http://localhost:8000/camera/frame');
 });

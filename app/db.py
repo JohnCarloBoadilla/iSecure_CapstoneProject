@@ -3,8 +3,8 @@ import pymysql
 
 DB_CONFIG = {
     "host": os.getenv("MYSQL_HOST", "localhost"),
-    "user": os.getenv("MYSQL_USER", "it11"),
-    "password": os.getenv("MYSQL_PASSWORD", "faxjgeninc"),
+    "user": os.getenv("MYSQL_USER", "root"),
+    "password": os.getenv("MYSQL_PASSWORD", ""),
     "database": os.getenv("MYSQL_DATABASE", "isecuredb"),
     "cursorclass": pymysql.cursors.DictCursor
 }

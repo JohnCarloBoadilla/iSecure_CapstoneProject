@@ -68,7 +68,7 @@ if (!empty($session['user_id'])) {
 <div class="body">
 
 <div class="left-panel">
-    <div class="sidebar-container"></div>
+    <div id="sidebar-container"></div>
 </div>
 
 <div class="right-panel">
