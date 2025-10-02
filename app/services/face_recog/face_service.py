@@ -65,10 +65,10 @@ def recognize_face_from_frame(frame):
 def recognize_face(file: UploadFile):
     image = face_recognition.load_image_file(file.file)
     uploaded_encodings = face_recognition.face_encodings(image)
-    
+
     if not uploaded_encodings:
         return {"recognized": False}
-    
+
     uploaded_encoding = uploaded_encodings[0]
     visitors = get_all_visitors_encodings()
     personnels = get_all_personnels_encodings()
@@ -88,3 +88,19 @@ def recognize_face(file: UploadFile):
             return {"recognized": True, "type": "personnel", "id": personnel["id"], "name": personnel["name"]}
 
     return {"recognized": False}
+
+def compare_faces(file1: UploadFile, file2: UploadFile):
+    image1 = face_recognition.load_image_file(file1.file)
+    image2 = face_recognition.load_image_file(file2.file)
+
+    encodings1 = face_recognition.face_encodings(image1)
+    encodings2 = face_recognition.face_encodings(image2)
+
+    if not encodings1 or not encodings2:
+        return {"match": False, "message": "No face detected in one or both images"}
+
+    encoding1 = encodings1[0]
+    encoding2 = encodings2[0]
+
+    match = face_recognition.compare_faces([encoding1], encoding2, tolerance=0.5)
+    return {"match": bool(match[0]), "message": "Faces match" if match[0] else "Faces do not match"}

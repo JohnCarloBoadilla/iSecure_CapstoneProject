@@ -1,9 +1,9 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
-from .services.face_service import recognize_face
-from .services.vehicle_services import detect_vehicle_plate, detect_vehicle_color
-from .services.ocr_services import extract_id_info
+from .services.face_recog.face_service import recognize_face, compare_faces
+from .services.vehicle_recog.vehicle_services import detect_vehicle_plate, detect_vehicle_color
+from .services.ocr.ocr_services import extract_id_info
 from .config import camera
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
@@ -29,6 +29,14 @@ app.add_middleware(
 async def recognize_face_endpoint(file: UploadFile = File(...)):
     try:
         result = await asyncio.get_event_loop().run_in_executor(executor, recognize_face, file)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/compare/faces")
+async def compare_faces_endpoint(file1: UploadFile = File(...), file2: UploadFile = File(...)):
+    try:
+        result = await asyncio.get_event_loop().run_in_executor(executor, compare_faces, file1, file2)
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

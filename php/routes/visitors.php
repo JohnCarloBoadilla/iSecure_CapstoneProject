@@ -223,7 +223,17 @@ if (!empty($session['user_id'])) {
           <!-- Facial Verification Tab -->
           <div class="tab-pane fade" id="facial" role="tabpanel">
             <h6>Facial Verification</h6>
-            <div id="facialContainer">Container for facial recognition feature</div>
+            <div class="row">
+              <div class="col-md-6">
+                <h6>Live Camera Feed</h6>
+                <video id="facialVideo" autoplay playsinline style="width: 100%; max-width: 400px;"></video>
+              </div>
+              <div class="col-md-6">
+                <h6>Visitor Selfie</h6>
+                <img id="facialSelfie" src="" alt="Selfie" class="img-fluid" style="max-width: 400px;">
+              </div>
+            </div>
+            <div id="facialResult" class="mt-3 alert" style="display: none;"></div>
             <button id="nextToVehicle" class="btn btn-primary mt-3">Next</button>
           </div>
 

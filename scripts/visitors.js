@@ -29,8 +29,55 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (nextToVehicleBtn) {
-    nextToVehicleBtn.addEventListener("click", () => {
-      showTab("vehicle");
+    nextToVehicleBtn.addEventListener("click", async () => {
+      const video = document.getElementById('facialVideo');
+      const resultDiv = document.getElementById('facialResult');
+      if (!video || !currentSelfiePath) {
+        alert('Camera or selfie not available.');
+        return;
+      }
+
+      // Capture frame from video
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0);
+      canvas.toBlob(async (blob) => {
+        const formData = new FormData();
+        formData.append('file1', blob, 'frame.jpg');
+
+        // Fetch selfie image and append
+        try {
+          const selfieResponse = await fetch(currentSelfiePath);
+          const selfieBlob = await selfieResponse.blob();
+          formData.append('file2', selfieBlob, 'selfie.jpg');
+
+          // Send to API
+          const apiResponse = await fetch('http://localhost:8000/compare/faces', {
+            method: 'POST',
+            body: formData
+          });
+          const result = await apiResponse.json();
+
+          // Display result
+          resultDiv.style.display = 'block';
+          if (result.match) {
+            resultDiv.className = 'alert alert-success';
+            resultDiv.textContent = 'Face verification successful: ' + result.message;
+            // Proceed to next tab
+            setTimeout(() => showTab("vehicle"), 2000);
+          } else {
+            resultDiv.className = 'alert alert-danger';
+            resultDiv.textContent = 'Face verification failed: ' + result.message;
+          }
+        } catch (err) {
+          console.error('Error during face comparison:', err);
+          resultDiv.style.display = 'block';
+          resultDiv.className = 'alert alert-danger';
+          resultDiv.textContent = 'Error during face verification.';
+        }
+      });
     });
   }
 
@@ -58,6 +105,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Facial tab shown event to start camera
+  const facialTab = document.querySelector('#facial-tab');
+  if (facialTab) {
+    facialTab.addEventListener('shown.bs.tab', async () => {
+      const video = document.getElementById('facialVideo');
+      if (video && !stream) {
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+          video.srcObject = stream;
+          await video.play();
+        } catch (err) {
+          console.error('Error accessing camera:', err);
+          alert('Unable to access camera for facial verification.');
+        }
+      }
+    });
+  }
+
    /* ---- Logout modal ---- */
   const logoutLink = document.getElementById("logout-link");
   if (logoutLink) {
@@ -79,6 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const visitorsTbody = document.querySelector("#visitorsTable tbody");
   const markEntryBtn = document.getElementById("markEntryBtn");
   let currentVisitorId = null;
+  let currentSelfiePath = null;
+  let stream = null;
 
   function escapeHtml(s) {
     if (!s) return "";
@@ -164,8 +231,10 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("visitorReason").textContent = visitor.data.reason;
         document.getElementById("visitorIDPhoto").src = visitor.data.id_photo_path;
         document.getElementById("visitorSelfie").src = visitor.data.selfie_photo_path;
+        document.getElementById("facialSelfie").src = visitor.data.selfie_photo_path;
 
         currentVisitorId = visitor.data.id;
+        currentSelfiePath = visitor.data.selfie_photo_path;
 
         // Hide or show verify tabs based on visitor status
         const verifyTabBtn = document.querySelector('#visitorTab button[data-bs-target="#verify"]');
