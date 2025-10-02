@@ -25,6 +25,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.on_event("shutdown")
+def shutdown_event():
+    # Properly release the camera resource on shutdown
+    camera.stop()
+
 @app.post("/recognize/face")
 async def recognize_face_endpoint(file: UploadFile = File(...)):
     try:

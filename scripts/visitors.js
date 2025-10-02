@@ -110,15 +110,75 @@ document.addEventListener("DOMContentLoaded", () => {
   if (facialTab) {
     facialTab.addEventListener('shown.bs.tab', async () => {
       const video = document.getElementById('facialVideo');
-      if (video && !stream) {
-        try {
+      const canvas = document.getElementById('facialCanvas');
+      if (video && canvas && !stream) {
+      try {
           stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
           video.srcObject = stream;
           await video.play();
+          console.log('Camera accessed successfully');
         } catch (err) {
           console.error('Error accessing camera:', err);
-          alert('Unable to access camera for facial verification.');
+          alert('Unable to access camera for facial verification. Error: ' + err.message + ". Please ensure no other applications or browser tabs are using the camera, and that you have granted camera permissions.");
+          // Retry logic: try again after 3 seconds
+          setTimeout(async () => {
+            try {
+              stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+              video.srcObject = stream;
+              await video.play();
+              console.log('Camera accessed successfully on retry');
+            } catch (retryErr) {
+              console.error('Retry failed:', retryErr);
+              alert('Retry to access camera failed. Please close other apps using the camera and refresh the page.');
+            }
+          }, 3000);
+          return;
         }
+
+        try {
+          // Load face-api models from local models directory
+          await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
+          console.log('Models loaded successfully from local directory');
+
+          const displaySize = { width: video.videoWidth, height: video.videoHeight };
+          faceapi.matchDimensions(canvas, displaySize);
+          canvas.width = displaySize.width;
+          canvas.height = displaySize.height;
+
+          detectionInterval = setInterval(async () => {
+            const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions());
+            const resizedDetections = faceapi.resizeResults(detections, displaySize);
+
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            resizedDetections.forEach(detection => {
+              const box = detection.box;
+              ctx.strokeStyle = 'lime';
+              ctx.lineWidth = 2;
+              ctx.strokeRect(box.x, box.y, box.width, box.height);
+            });
+          }, 100);
+        } catch (err) {
+          console.error('Error loading face detection models:', err);
+          alert('Unable to load face detection models. Face detection visualization will not work, but you can still proceed with verification.');
+        }
+      }
+    });
+
+    facialTab.addEventListener('hidden.bs.tab', () => {
+      if (detectionInterval) {
+        clearInterval(detectionInterval);
+        detectionInterval = null;
+      }
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
+      }
+      const canvas = document.getElementById('facialCanvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
     });
   }
@@ -146,6 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentVisitorId = null;
   let currentSelfiePath = null;
   let stream = null;
+  let detectionInterval = null;
 
   function escapeHtml(s) {
     if (!s) return "";

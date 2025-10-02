@@ -226,7 +226,10 @@ if (!empty($session['user_id'])) {
             <div class="row">
               <div class="col-md-6">
                 <h6>Live Camera Feed</h6>
-                <video id="facialVideo" autoplay playsinline style="width: 100%; max-width: 400px;"></video>
+                <div style="position: relative; display: inline-block;">
+                  <video id="facialVideo" autoplay playsinline style="width: 100%; max-width: 400px;"></video>
+                  <canvas id="facialCanvas" style="position: absolute; top: 0; left: 0; width: 100%; max-width: 400px; height: auto;"></canvas>
+                </div>
               </div>
               <div class="col-md-6">
                 <h6>Visitor Selfie</h6>
@@ -260,6 +263,7 @@ if (!empty($session['user_id'])) {
     </div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
 <script src="../../scripts/sidebar.js"></script>
 <script src="../../scripts/visitors.js"></script>
 <script src="../../scripts/session_check.js"></script>
