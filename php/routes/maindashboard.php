@@ -21,7 +21,8 @@
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="../../stylesheet/admin.css">
-  <link rel="stylesheet" href="../../stylesheet/sidebar.css">
+  <link rel="stylesheet" href="../../stylesheet/admin-maindashboard.css">
+    <link rel="stylesheet" href="../../stylesheet/sidebar.css">
 </head>
 <body>
 <div class="body">
@@ -95,23 +96,47 @@
 
       <!-- Stats cards -->
     <div class="status-containers">
-  <div class="stats-cards">
-    <div class="card-value" id="visitorsCount">0</div>
-    <div class="card-label">Current Visitors</div>
-  </div>
-  <div class="stats-cards">
-    <div class="card-value" id="vehiclesCount">0</div>
-    <div class="card-label">Current Vehicles</div>
-  </div>
-  <div class="stats-cards">
-    <div class="card-value" id="pendingCount">0</div>
-    <div class="card-label">Pendings</div>
-  </div>
-  <div class="stats-cards">
-    <div class="card-value" id="entryCount">0</div>
-    <div class="card-label">Door Entry</div>
-  </div>
-</div>
+      <div class="stats-cards">
+        <div class="stats-card-icon">
+          <i class="fa-solid fa-users"></i>
+        </div>
+        <div class="stats-card-content">
+          <div class="card-value" id="visitorsCount">0</div>
+          <div class="card-label">Current Visitors</div>
+          <div class="updated-time">updated 21hrs ago</div>
+        </div>
+      </div>
+      <div class="stats-cards">
+        <div class="stats-card-icon">
+          <i class="fa-solid fa-car"></i>
+        </div>
+        <div class="stats-card-content">
+          <div class="card-value" id="vehiclesCount">0</div>
+          <div class="card-label">Current Vehicles</div>
+          <div class="updated-time">updated 21hrs ago</div>
+        </div>
+      </div>
+      <div class="stats-cards">
+        <div class="stats-card-icon">
+          <i class="fa-solid fa-list-check"></i>
+        </div>
+        <div class="stats-card-content">
+          <div class="card-value" id="pendingCount">0</div>
+          <div class="card-label">Pendings</div>
+          <div class="updated-time">updated 21hrs ago</div>
+        </div>
+      </div>
+      <div class="stats-cards">
+        <div class="stats-card-icon">
+          <i class="fa-solid fa-clock"></i>
+        </div>
+        <div class="stats-card-content">
+          <div class="card-value" id="entryCount">0</div>
+          <div class="card-label">Access Control</div>
+          <div class="updated-time">updated 21hrs ago</div>
+        </div>
+      </div>
+    </div>
 
 
       <!-- Chart + Widgets -->
@@ -207,10 +232,10 @@
 </div>
 
 <!-- JS -->
-<script src="../../scripts/sidebardashboard.js"></script> 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="../../scripts/admin.js"></script>
+<script src="../../scripts/sidebardashboard.js"></script>
 <script src="../../scripts/session_check.js"></script>
 </body>
 </html>

@@ -7,7 +7,8 @@
     background-color: #006682;
     min-width: 252px;
     max-width: 252px;
-    height: 100%;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .sidebar-panel h1 {

@@ -1,18 +1,7 @@
 <?php
-session_start();
 require '../database/db_connect.php'; // this should set up $pdo (PDO connection)
 
 try {
-    // Check if admin already exists
-    $checkStmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE role = 'Admin'");
-    $checkStmt->execute();
-    $adminCount = $checkStmt->fetchColumn();
-
-    if ($adminCount > 0) {
-        header("Location: loginpage.php");
-        exit;
-    }
-
     // Unique ID for the new user
     $id = uniqid();
 
@@ -35,12 +24,9 @@ try {
         ':password_hash' => $hash
     ]);
 
-    $_SESSION['admin_seeded'] = true;
     header("Location: loginpage.php");
     exit;
 
 } catch (Exception $e) {
-    $_SESSION['error'] = "Admin setup failed: " . $e->getMessage();
-    header("Location: loginpage.php");
-    exit;
+    echo " Error: " . $e->getMessage();
 }

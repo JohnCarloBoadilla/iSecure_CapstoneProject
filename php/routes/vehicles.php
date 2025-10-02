@@ -38,139 +38,128 @@ if (!empty($session['user_id'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/png" href="../../images/logo/5thFighterWing-logo.png">
+  <link rel="stylesheet" href="../../stylesheet/vehicles.css">
+    <link rel="stylesheet" href="../../stylesheet/sidebar.css">
   <title>Vehicles</title>
-
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet" />
-  <link rel="icon" type="image/png" href="../../images/logo/5thFighterWing-logo.png" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-  <!-- Custom Styles -->
-  <link rel="stylesheet" href="../../stylesheet/vehicles.css" />
-  <link rel="stylesheet" href="../../stylesheet/sidebar.css" />
 </head>
 <body>
-  <div class="body">
-    
-    <!-- Sidebar -->
-    <div class="left-panel">
-      <div id="sidebar-container"></div>
-    </div>
+<div class="body">
+  <div class="left-panel">
+    <div id="sidebar-container"></div>
+  </div>
 
-    <!-- Main Content -->
-    <div class="right-panel">
-      <div class="main-content">
-
-        <!-- Header -->
-        <div class="main-header d-flex justify-content-between align-items-center">
-          <div class="header-left d-flex align-items-center">
-            <i class="fa-solid fa-home me-2"></i>
-            <h6 class="path mb-0"> / Dashboard /</h6>
-            <h6 class="current-loc mb-0 ms-1">Vehicles</h6>
-          </div>
-          <div class="header-right d-flex align-items-center">
-            <i class="fa-regular fa-bell me-3"></i>
-            <i class="fa-regular fa-message me-3"></i>
-            <div class="user-info d-flex align-items-center">
-              <i class="fa-solid fa-user-circle fa-lg me-2"></i>
-              <div class="user-text">
-                <span class="username"><?php echo $fullName; ?></span>
-                <a id="logout-link" class="logout-link" href="logout.php">Logout</a>
-                <div id="confirmModal" class="modal">
-                  <div class="modal-content">
-                    <p id="confirmMessage"></p>
-                    <div class="modal-actions">
-                      <button id="confirmYes" class="btn btn-danger">Yes</button>
-                      <button id="confirmNo" class="btn btn-secondary">No</button>
-                    </div>
+  <div class="right-panel">
+    <div class="main-content">
+      <div class="main-header d-flex justify-content-between align-items-center">
+        <div class="header-left d-flex align-items-center">
+          <i class="fa-solid fa-home me-2"></i>
+          <h6 class="path mb-0"> / Dashboard /</h6>
+          <h6 class="current-loc mb-0 ms-1">Vehicles</h6>
+        </div>
+        <div class="header-right d-flex align-items-center">
+          <i class="fa-regular fa-bell me-3"></i>
+          <i class="fa-regular fa-message me-3"></i>
+          <div class="user-info d-flex align-items-center">
+            <i class="fa-solid fa-user-circle fa-lg me-2"></i>
+            <div class="user-text">
+              <span class="username"><?php echo $fullName; ?></span>
+              <a id="logout-link" class="logout-link" href="logout.php">Logout</a>
+              <div id="confirmModal" class="modal">
+                <div class="modal-content">
+                  <p id="confirmMessage"></p>
+                  <div class="modal-actions">
+                    <button id="confirmYes" class="btn btn-danger">Yes</button>
+                    <button id="confirmNo" class="btn btn-secondary">No</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Expected Vehicles Table -->
-        <div class="vehicles-container">
-          <h5 class="table-title">Expected Vehicles</h5>
-          <div class="table-responsive">
-            <table id="expectedVehiclesTable" class="table table-bordered table-hover">
-              <thead class="table-light">
-                <tr>
-                  <th>Owner</th>
-                  <th>Brand</th>
-                  <th>Model</th>
-                  <th>Color</th>
-                  <th>Plate No.</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td colspan="7" class="text-center">Loading...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+<!-- ==== Expected Vehicles Table ==== -->
+<div class="vehicles-container">
+  <h5 class="table-title">Expected Vehicles</h5>
+  <div class="table-responsive">
+    <table id="expectedVehiclesTable">
+      <thead>
+        <tr>
+          <th>Owner</th>
+          <th>Brand</th>
+          <th>Model</th>
+          <th>Color</th>
+          <th>Plate No.</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="7" class="text-center">Loading...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-        <!-- Inside Vehicles Table -->
-        <div class="vehicles-container mt-5">
-          <h5 class="table-title">Inside Vehicles</h5>
-          <div class="table-responsive">
-            <table id="insideVehiclesTable" class="table table-bordered table-hover">
-              <thead class="table-light">
-                <tr>
-                  <th>Owner</th>
-                  <th>Brand</th>
-                  <th>Model</th>
-                  <th>Color</th>
-                  <th>Plate No.</th>
-                  <th>Entry Time</th>
-                  <th>Exit Time</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td colspan="9" class="text-center">Loading...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
 
-      </div> <!-- /.main-content -->
-    </div> <!-- /.right-panel -->
 
-  </div> <!-- /.body -->
 
-  <!-- Live View Modal -->
-  <div id="liveViewModal" class="modal fade" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content p-3">
-        <div class="modal-header">
-          <h5 class="modal-title">Live Vehicle Capture</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeLiveView"></button>
-        </div>
-        <div class="modal-body" id="liveStreamContainer">
-          <!-- JS injects live feed here -->
-        </div>
+<!-- ==== Inside Vehicles Table ==== -->
+<div class="vehicles-container">
+  <h5 class="table-title">Inside Vehicles</h5>
+  <div class="table-responsive">
+    <table id="insideVehiclesTable">
+      <thead>
+        <tr>
+          <th>Owner</th>
+          <th>Brand</th>
+          <th>Model</th>
+          <th>Color</th>
+          <th>Plate No.</th>
+          <th>Entry Time</th>
+          <th>Exit Time</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="8" class="text-center">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+    </div>
+  </div>
+</div>
+
+<!-- Live View Modal -->
+<div id="liveViewModal" class="modal fade" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content p-3">
+      <div class="modal-header">
+        <h5 class="modal-title">Live Vehicle Capture</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeLiveView"></button>
+      </div>
+      <div class="modal-body" id="liveStreamContainer">
+        <!-- JS injects live feed here -->
       </div>
     </div>
   </div>
-
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../../scripts/sidebar.js"></script>
-  <script src="../../scripts/vehicles.js"></script>
-  <script src="../../scripts/session_check.js"></script>
+</div>
+<script src="../../scripts/sidebar.js"></script>
+<script src="../../scripts/vehicles.js"></script>
+<script src="../../scripts/session_check.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

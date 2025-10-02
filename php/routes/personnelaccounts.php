@@ -64,14 +64,14 @@ if (!empty($session['user_id'])) {
     <link rel="icon" type="image/png" href="../../images/logo/5thFighterWing-logo.png">
     <!-- Your existing CSS -->
     <link rel="stylesheet" href="../../stylesheet/personnelaccounts.css">
-    <link rel="stylesheet" href="../../stylesheet/sidebar.css">
+        <link rel="stylesheet" href="../../stylesheet/sidebar.css">
 </head>
 <body>
 
 <div class="body">
 
 <div class="left-panel">
-  <div id="sidebar-container"></div>
+<div id="sidebar-container"></div>
 </div>
 
 <div class="right-panel">
@@ -271,7 +271,7 @@ if (!empty($session['user_id'])) {
 </div>
 
 <!-- Scripts -->
-<script src="../../scripts/sidebar.js"></script> 
+ <script src="../../scripts/sidebar.js"></script>
 <script src="../../scripts/personnelaccount.js"></script>
 <script src="../../scripts/session_check.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

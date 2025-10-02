@@ -21,6 +21,8 @@ if (!$user || !password_verify($password, $user['password_hash'])) {
     log_admin_action($pdo, $user['id'], "User logged in");
 }
 
+
+
 // 🔑 Remove any old sessions for this user
 $stmt = $pdo->prepare("DELETE FROM personnel_sessions WHERE user_id = :user_id");
 $stmt->execute([':user_id' => $user['id']]);

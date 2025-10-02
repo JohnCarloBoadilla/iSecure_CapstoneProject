@@ -48,14 +48,14 @@ if ($token) {
 
   <div class="header">
   <div class="left-group">
-    <div class="basa-logo"><img src=".\images\logo\5thFighterWing-logo.png" alt="BASA Logo"></div>
+    <div class="basa-logo"><img src="../../images/logo/5thFighterWing-logo.png" alt="BASA Logo"></div>
     <h1>5TH FIGHTER WING</h1>
   </div>
 
   <div class="right-group">
-    <div class="transparency-logo"><img src=".\images\logo\Transparency Seal - img.png" alt="Transparency Logo"></div>
-    <div class="phaf-logo"><img src=".\images\logo\Philippine Airforce - Logo.png" alt="PHAF Logo"></div>
-    <div class="bagongpilipinas-logo"><img src=".\images\logo\Bagong Pilipinas - Logo.png" alt="Bagong Pilipinas Logo"></div>
+    <div class="transparency-logo"><img src="../../images/logo/Transparency Seal - img.png" alt="Transparency Logo"></div>
+    <div class="phaf-logo"><img src="../../images/logo/Philippine Airforce - Logo.png" alt="PHAF Logo"></div>
+    <div class="bagongpilipinas-logo"><img src="../../images/logo/Bagong Pilipinas - Logo.png" alt="Bagong Pilipinas Logo"></div>
   </div>
 </div>
 
@@ -77,7 +77,7 @@ if ($token) {
   <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <?php
-      require 'db_connect.php';
+      require '../database/db_connect.php';
       $stmt = $pdo->query("SELECT * FROM landing_carousel ORDER BY sort_order ASC");
       $slides = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -85,7 +85,7 @@ if ($token) {
       foreach ($slides as $slide):
       ?>
         <div class="carousel-item <?= $isActive ? 'active' : '' ?>">
-          <img src="<?= htmlspecialchars($slide['image_path']) ?>" class="d-block w-100" alt="Carousel Slide">
+          <img src="../../uploads/<?= htmlspecialchars($slide['image_path']) ?>" class="d-block w-100" alt="Carousel Slide" style="object-fit: cover; height: 500px;">
           <?php if (!empty($slide['caption_title']) || !empty($slide['caption_text'])): ?>
             <div class="carousel-caption d-none d-md-block">
               <h5><?= htmlspecialchars($slide['caption_title']) ?></h5>
@@ -111,13 +111,13 @@ if ($token) {
 </section>
 
     <!-- About Us -->
-   <div id="AboutUs" class="AboutUs">
+  <div id="AboutUs" class="AboutUs">
     <?php
-   
+
     $stmt = $pdo->query("SELECT * FROM landing_about_us WHERE id = 1 LIMIT 1");
-    $about = $stmt->fetch(PDO::FETCH_ASSOC);
+    $about = $stmt->fetch(PDO::FETCH_ASSOC) ?: ['title' => 'About Us', 'content' => 'Default content'];
     ?>
-    
+
     <h1 class="aboutush1"><?= htmlspecialchars($about['title']) ?></h1>
     <div class="hr-about"></div>
     <p><?= nl2br(htmlspecialchars($about['content'])) ?></p>
@@ -134,10 +134,10 @@ if ($token) {
     
     foreach ($cards as $card): ?>
         <div class="card" style="width: 35rem;">
-            <img src="<?= htmlspecialchars($card['image_path']) ?>" class="card-img-top" alt="<?= htmlspecialchars($card['title']) ?>-img">
+            <img src="../../uploads/<?= htmlspecialchars($card['image_path']) ?>" class="card-img-top" alt="<?= htmlspecialchars($card['title']) ?>-img">
             <div class="card-body">
                 <div class="bottom">
-                    <h4><?= htmlspecialchars($card['title']) ?></h4> 
+                    <h4><?= htmlspecialchars($card['title']) ?></h4>
                     <div class="bottom-right">
                         <a href="<?= htmlspecialchars($card['link_url']) ?>">View More</a>
                         <i class="fa-solid fa-arrow-right"></i>
@@ -151,7 +151,7 @@ if ($token) {
 
     <!-- News & Announcement -->
 
-   <section id="News" class="news-section">
+  <section id="News" class="news-section">
   <h1 class="section-title">NEWS & ANNOUNCEMENTS</h1>
 
   <div class="news-layout">
@@ -163,12 +163,12 @@ if ($token) {
       <div id="news-carouselExampleAutoplaying" class="carousel slide mb-4" data-bs-ride="carousel">
         <div class="carousel-inner">
           <?php
-          require 'db_connect.php';
+          require '../database/db_connect.php';
           $carousel = $pdo->query("SELECT * FROM news_carousel ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
           $active = "active";
           foreach ($carousel as $item): ?>
             <div class="carousel-item <?= $active ?>">
-              <img src="<?= htmlspecialchars($item['image_path']) ?>" class="d-block w-100" alt="News Carousel">
+              <img src="../../uploads/<?= htmlspecialchars($item['image_path']) ?>" class="d-block w-100" alt="News Carousel" style="object-fit: cover; height: 450px;">
             </div>
           <?php $active = ""; endforeach; ?>
         </div>
@@ -188,7 +188,7 @@ if ($token) {
         $headlines = $pdo->query("SELECT * FROM news_headlines ORDER BY created_at DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
         foreach ($headlines as $news): ?>
           <div class="news-item">
-            <img src="<?= htmlspecialchars($news['image_path']) ?>" alt="<?= htmlspecialchars($news['title']) ?>">
+            <img src="../../uploads/<?= htmlspecialchars($news['image_path']) ?>" alt="<?= htmlspecialchars($news['title']) ?>" style="object-fit: cover; width: 200px; height: 150px;">
             <div class="news-text">
               <h2><?= htmlspecialchars($news['title']) ?></h2>
               <p><?= htmlspecialchars($news['description']) ?></p>
@@ -201,12 +201,21 @@ if ($token) {
 
     <!-- RIGHT SIDEBAR -->
     <aside class="news-sidebar">
-      <div id="announcement-container" class="announcement-box">
-        <div class="announcement-box">
-          
+      <?php
+      $stmt = $pdo->query("SELECT * FROM landing_sidebar_sections ORDER BY FIELD(section_type, 'basa_announcements', 'west_philippine_sea', 'government_links')");
+      $sidebarItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      foreach ($sidebarItems as $item):
+      ?>
+        <div class="sidebar-section card mb-3">
+          <?php if (!empty($item['image_path'])): ?>
+            <img src="../../uploads/<?= htmlspecialchars($item['image_path']) ?>" class="sidebar-img card-img-top" alt="<?= htmlspecialchars($item['title']) ?>" style="object-fit: cover; height: 200px;">
+          <?php endif; ?>
+          <div class="card-body">
+            <h5 class="card-title"><?= htmlspecialchars($item['title']) ?></h5>
+            <div class="sidebar-content"><?= $item['content'] ?></div>
+          </div>
         </div>
-      </div>
-    
+      <?php endforeach; ?>
     </aside>
 
   </div>
@@ -349,9 +358,9 @@ if ($token) {
   <div class="footer-columns">
     <div class="col">
       <div class="col-img">
-         <img src=".\images\logo\5thFighterWing-logo.png" alt="Basa Logo">
-         <img src=".\images\logo\Bagong Pilipinas - Logo.png" alt="Bagong Pilipinas Logo">
-         <img src=".\images\logo\Philippine Airforce - Logo.png" alt="Philippine Air Force Logo">
+         <img src="../../images/logo/5thFighterWing-logo.png" alt="Basa Logo">
+         <img src="../../images/logo/Bagong Pilipinas - Logo.png" alt="Bagong Pilipinas Logo">
+         <img src="../../images/logo/Philippine Airforce - Logo.png" alt="Philippine Air Force Logo">
       </div>
       <br>
       <h5>Copyright © Basa Air Base 5th Fighter Wing. All Rights Reserved</h5>
@@ -368,11 +377,11 @@ if ($token) {
       <h4 class="right-panel-text">Developed By:</h4>
 
       <div id="left-col-img" class="col-img">
-        <img src=".\images\logo\pamsu - logo.png" alt="Pampanga State Univertisty Logo">
-        <img src=".\images\logo\ccs - log.png" alt="College of Computing Studies">
+        <img src="../../images/logo/pamsu - logo.png" alt="Pampanga State Univertisty Logo">
+        <img src="../../images/logo/ccs - log.png" alt="College of Computing Studies">
         <h4 class="right-panel-text2">CCS Students of Pampanga State University</h4>
       </div>
-     
+
     </div>
   </div>
      <script src="../../scripts/landingpage.js"></script>

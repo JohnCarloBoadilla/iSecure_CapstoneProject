@@ -62,8 +62,7 @@ $requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="icon" type="image/png" href="../../images/logo/5thFighterWing-logo.png">
   <link rel="stylesheet" href="../../stylesheet/pendings.css">
-  <link rel="stylesheet" href="../../stylesheet/sidebar.css">
-
+    <link rel="stylesheet" href="../../stylesheet/sidebar.css">
   <title>Pendings</title>
   <style>.modal img { max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 8px; }</style>
 </head>
@@ -71,7 +70,7 @@ $requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="body">
 
 <div class="left-panel">
-  <div id="sidebar-container"></div>
+    <div id="sidebar-container"></div>
 </div>
 
 <div class="right-panel">
@@ -318,6 +317,7 @@ function handleDecision(action) {
 }
 
 </script>
+
 <script src="../../scripts/sidebar.js"></script>
 <script src="../../scripts/session_check.js"></script>
 </body>

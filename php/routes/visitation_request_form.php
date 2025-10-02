@@ -34,9 +34,9 @@ if ($token) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link rel="icon" type="image/png" href=".\images\logo\5thFighterWing-logo.png">
+    <link rel="icon" type="image/png" href="../../images/logo/5thFighterWing-logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="./stylesheet/visitationrequestform.css">
+    <link rel="stylesheet" href="../../stylesheet/visitationrequestform.css">
     <title>Visitation Request</title>
 </head>
 <body>
@@ -144,9 +144,9 @@ if ($token) {
   <div class="footer-columns">
     <div class="col">
       <div class="col-img">
-         <img src=".\images\logo\5thFighterWing-logo.png" alt="Basa Logo">
-         <img src=".\images\logo\Bagong Pilipinas - Logo.png" alt="Bagong Pilipinas Logo">
-         <img src=".\images\logo\Philippine Airforce - Logo.png" alt="Philippine Air Force Logo">
+         <img src="../../images/logo/5thFighterWing-logo.png" alt="Basa Logo">
+         <img src="../../images/logo/Bagong Pilipinas - Logo.png" alt="Bagong Pilipinas Logo">
+         <img src="../../images/logo/Philippine Airforce - Logo.png" alt="Philippine Air Force Logo">
       </div>
       <br>
       <h5>Copyright © Basa Air Base 5th Fighter Wing. All Rights Reserved</h5>
@@ -163,14 +163,14 @@ if ($token) {
       <h4 class="right-panel-text">Developed By:</h4>
 
       <div id="left-col-img" class="col-img">
-        <img src=".\images\logo\pamsu - logo.png" alt="Pampanga State Univertisty Logo">
-        <img src=".\images\logo\ccs - log.png" alt="College of Computing Studies">
+        <img src="../../images/logo/pamsu - logo.png" alt="Pampanga State Univertisty Logo">
+        <img src="../../images/logo/ccs - log.png" alt="College of Computing Studies">
         <h4 class="right-panel-text2">CCS Students of Pampanga State University</h4>
       </div>
      
     </div>
   </div>
-     <script src="./scripts/landingpage.js"></script>
+     <script src="../../scripts/landingpage.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
      </body>
 </html>

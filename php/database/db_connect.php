@@ -1,6 +1,6 @@
 <?php
 $host = "localhost";       
-$dbname = "isecuredb"; 
+$dbname = "isecure"; 
 $username = "root";   
 $password = "";   
 
