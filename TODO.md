@@ -1,12 +1,9 @@
-# Integrate Face Recognition in Visitor Modal
+# TODO: Implement Complex Real-Time Facial Recognition
 
-## Pending Tasks
-- [x] Add compare_faces function in app/services/face_recog/face_service.py to compare two images (live frame and selfie).
-- [x] Add /compare/faces API endpoint in app/main.py to accept two images and return face recognition result.
-- [x] Update php/routes/visitors.php to include camera video element, selfie display, and result container in facial tab.
-- [x] Update scripts/visitors.js to:
-  - Access camera and display feed in facial tab.
-  - Capture current frame on "next" button click.
-  - Send frame and selfie to backend API.
-  - Display recognition result (match/no match).
-- [ ] Test the integration to ensure camera access, API calls, and recognition work correctly.
+## Tasks
+- [x] Enhance `face_service.py` with `real_time_compare_faces` function
+- [x] Add `/real_time_compare/faces` API endpoint in `app/main.py`
+- [x] Modify `scripts/visitors.js` for real-time comparison and visual feedback
+- [x] Keep "Next" button for facial verification in `php/routes/visitors.php`
+- [x] Test the real-time recognition
+- [x] Adjust threshold and visual feedback as needed

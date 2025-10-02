@@ -21,7 +21,7 @@
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="../../stylesheet/admin.css">
-  <link rel="stylesheet" href="../../stylesheet/admin-maindashboard.css">
+  <link rel="stylesheet" href="../../stylesheet/admin_maindashboard.css">
     <link rel="stylesheet" href="../../stylesheet/sidebar.css">
 </head>
 <body>

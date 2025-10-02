@@ -28,58 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (nextToVehicleBtn) {
-    nextToVehicleBtn.addEventListener("click", async () => {
-      const video = document.getElementById('facialVideo');
-      const resultDiv = document.getElementById('facialResult');
-      if (!video || !currentSelfiePath) {
-        alert('Camera or selfie not available.');
-        return;
-      }
-
-      // Capture frame from video
-      const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0);
-      canvas.toBlob(async (blob) => {
-        const formData = new FormData();
-        formData.append('file1', blob, 'frame.jpg');
-
-        // Fetch selfie image and append
-        try {
-          const selfieResponse = await fetch(currentSelfiePath);
-          const selfieBlob = await selfieResponse.blob();
-          formData.append('file2', selfieBlob, 'selfie.jpg');
-
-          // Send to API
-          const apiResponse = await fetch('http://localhost:8000/compare/faces', {
-            method: 'POST',
-            body: formData
-          });
-          const result = await apiResponse.json();
-
-          // Display result
-          resultDiv.style.display = 'block';
-          if (result.match) {
-            resultDiv.className = 'alert alert-success';
-            resultDiv.textContent = 'Face verification successful: ' + result.message;
-            // Proceed to next tab
-            setTimeout(() => showTab("vehicle"), 2000);
-          } else {
-            resultDiv.className = 'alert alert-danger';
-            resultDiv.textContent = 'Face verification failed: ' + result.message;
-          }
-        } catch (err) {
-          console.error('Error during face comparison:', err);
-          resultDiv.style.display = 'block';
-          resultDiv.className = 'alert alert-danger';
-          resultDiv.textContent = 'Error during face verification.';
-        }
-      });
-    });
-  }
+  // Removed nextToVehicleBtn logic as facial verification is now automatic
 
   if (nextToIdBtn) {
     nextToIdBtn.addEventListener("click", () => {
@@ -105,71 +54,124 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Facial tab shown event to start camera
+  // Facial tab shown event to start camera and real-time verification
   const facialTab = document.querySelector('#facial-tab');
   if (facialTab) {
+    let realTimeInterval = null;
+    let consecutiveMatches = 0;
+    const requiredConsecutiveMatches = 3;
+    const confidenceThreshold = 0.8;
+
     facialTab.addEventListener('shown.bs.tab', async () => {
       const video = document.getElementById('facialVideo');
       const canvas = document.getElementById('facialCanvas');
-      if (video && canvas && !stream) {
-      try {
+      const resultDiv = document.getElementById('facialResult');
+
+      if (!video || !canvas || !currentSelfiePath) {
+        console.warn('Missing video, canvas, or selfie path for real-time facial verification.');
+        return;
+      }
+
+      const ctx = canvas.getContext('2d');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      // Start camera if not started
+      if (!stream) {
+        try {
           stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
           video.srcObject = stream;
           await video.play();
-          console.log('Camera accessed successfully');
+          console.log('Camera accessed successfully for real-time facial verification');
         } catch (err) {
           console.error('Error accessing camera:', err);
-          alert('Unable to access camera for facial verification. Error: ' + err.message + ". Please ensure no other applications or browser tabs are using the camera, and that you have granted camera permissions.");
-          // Retry logic: try again after 3 seconds
-          setTimeout(async () => {
-            try {
-              stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
-              video.srcObject = stream;
-              await video.play();
-              console.log('Camera accessed successfully on retry');
-            } catch (retryErr) {
-              console.error('Retry failed:', retryErr);
-              alert('Retry to access camera failed. Please close other apps using the camera and refresh the page.');
-            }
-          }, 3000);
+          alert('Unable to access camera for facial verification. Error: ' + err.message);
+          return;
+        }
+      }
+
+      // Clear previous interval if any
+      if (realTimeInterval) {
+        clearInterval(realTimeInterval);
+      }
+
+      realTimeInterval = setInterval(async () => {
+        if (video.readyState !== 4) {
+          console.warn('Video not ready, readyState:', video.readyState);
+          return; // Ensure video is ready
+        }
+
+        if (video.videoWidth === 0 || video.videoHeight === 0) {
+          console.warn('Video dimensions not available yet:', video.videoWidth, video.videoHeight);
           return;
         }
 
-        try {
-          // Load face-api models from local models directory
-          await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
-          console.log('Models loaded successfully from local directory');
-
-          const displaySize = { width: video.videoWidth, height: video.videoHeight };
-          faceapi.matchDimensions(canvas, displaySize);
-          canvas.width = displaySize.width;
-          canvas.height = displaySize.height;
-
-          detectionInterval = setInterval(async () => {
-            const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions());
-            const resizedDetections = faceapi.resizeResults(detections, displaySize);
-
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            resizedDetections.forEach(detection => {
-              const box = detection.box;
-              ctx.strokeStyle = 'lime';
-              ctx.lineWidth = 2;
-              ctx.strokeRect(box.x, box.y, box.width, box.height);
-            });
-          }, 100);
-        } catch (err) {
-          console.error('Error loading face detection models:', err);
-          alert('Unable to load face detection models. Face detection visualization will not work, but you can still proceed with verification.');
+        // Ensure canvas size matches video size
+        if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          console.log('Canvas size updated to video size:', canvas.width, canvas.height);
         }
-      }
+
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
+
+        if (!blob || blob.size === 0) {
+          console.warn('Failed to capture frame blob or blob is empty');
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', blob, 'frame.jpg');
+        formData.append('selfie_path', currentSelfiePath);
+
+        try {
+          const response = await fetch('http://localhost:8000/real_time_compare/faces?selfie_path=' + encodeURIComponent(currentSelfiePath), {
+            method: 'POST',
+            body: formData
+          });
+          const result = await response.json();
+
+          // Clear canvas overlay
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          if (result.boxes && result.boxes.length > 0) {
+            result.boxes.forEach(box => {
+              const scaleX = canvas.width / video.videoWidth;
+              const scaleY = canvas.height / video.videoHeight;
+
+              // Draw lime box for all detected faces
+              ctx.strokeStyle = 'lime';
+              ctx.lineWidth = 3;
+              ctx.strokeRect(box.left * scaleX, box.top * scaleY, (box.right - box.left) * scaleX, (box.bottom - box.top) * scaleY);
+
+              // Draw text
+              ctx.fillStyle = 'lime';
+              ctx.font = '16px Arial';
+              ctx.fillText('Face Detected', box.left * scaleX, (box.top * scaleY) - 10);
+            });
+
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'alert alert-info';
+            resultDiv.textContent = result.boxes.length + ' face(s) detected';
+          } else {
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'alert alert-info';
+            resultDiv.textContent = 'No faces detected';
+          }
+        } catch (err) {
+          console.error('Error during real-time face detection:', err);
+          resultDiv.style.display = 'block';
+          resultDiv.className = 'alert alert-danger';
+          resultDiv.textContent = 'Error during face detection.';
+        }
+      }, 500);
     });
 
     facialTab.addEventListener('hidden.bs.tab', () => {
-      if (detectionInterval) {
-        clearInterval(detectionInterval);
-        detectionInterval = null;
+      if (realTimeInterval) {
+        clearInterval(realTimeInterval);
+        realTimeInterval = null;
       }
       if (stream) {
         stream.getTracks().forEach(track => track.stop());
@@ -179,6 +181,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (canvas) {
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      const resultDiv = document.getElementById('facialResult');
+      if (resultDiv) {
+        resultDiv.style.display = 'none';
+        resultDiv.textContent = '';
       }
     });
   }
