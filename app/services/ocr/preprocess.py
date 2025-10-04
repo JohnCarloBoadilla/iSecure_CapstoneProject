@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 def convert_to_png(image_path):
-    if image_path.lower().endswith(('.jpg', '.jpeg')):
+    if not image_path.lower().endswith('.png'):
         img = cv2.imread(image_path)
         if img is not None:
             png_path = os.path.splitext(image_path)[0] + '.png'
@@ -32,7 +32,7 @@ def deskew(image):
     return rotated
 
 def preprocess_image(image_path, output_path="preprocessed.png", do_deskew=True):
-    # Convert JPEG to PNG if necessary
+    # Convert to PNG if not already PNG
     image_path = convert_to_png(image_path)
 
     img = cv2.imread(image_path)

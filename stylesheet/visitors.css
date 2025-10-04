@@ -26,6 +26,46 @@
     margin-top: 20px;
 }
 
+/* Make tables scrollable vertically and horizontally, with fixed header */
+.table-responsive {
+    max-height: 300px; /* Adjust height as needed */
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+/* Ensure full width layout for body and containers */
+html, body, .body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.vehicles-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto 40px auto;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.table-responsive table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-responsive thead th {
+    position: sticky;
+    top: 0;
+    background-color: #5BB7D1; /* Match header background */
+    color: white;
+    z-index: 10;
+}
+
+.table-responsive tbody tr {
+    /* normal display */
+}
+
 #expectedVisitorsTable th,
 #expectedVisitorsTable td,
 #insideVisitorsTable th,
@@ -80,74 +120,6 @@ h5 {
 
 .right-panel {
     flex: 1;
-}
-
-.sidebar-panel {
-    padding: 10px;
-    background-color: #006682;
-    min-width: 252px;
-    max-width: 252px;
-    height: 100%;
-}
-
-.sidebar-panel h1 {
-    font-weight: 600;
-    font-size: 40px;
-    color: white;
-    background-color: transparent;
-    margin-bottom: 26px;
-}
-
-.nav-links {
-    background-color: transparent;
-}
-
-.nav-links ul {
-   background-color: transparent;
-   list-style: none;
-   padding: 10px;
-   flex-wrap: wrap;
-}
-
-.nav-links h6 {
-    font-size: 17px;
-    font-weight: 300px;
-    color: #FFFFFFBF;
-    background-color: transparent;
-    margin-bottom: 11px;
-}
-
-.nav-links i {
-    height: 18px;
-    width: 18px;
-    margin-right: 10px;
-    margin-left: 5px;
-    color: white;
-    background-color: transparent;
-}
-
-.nav-links li {
-    text-decoration: none;
-    background-color: transparent;
-    margin-bottom: 10px;
-    padding: 4px;
-    flex-wrap: wrap;
-}
-
-.camera-view-drop-down {
-    margin-left: 20px;
-}
-
-.nav-links a {
-    text-decoration: none;
-    background-color: transparent;
-    color: white;
-    font-weight: bold;
-}
-
-.nav-links li:hover {
-    background-color: #2789A4;
-    border-radius: 6px;
 }
 
 .main-content {
@@ -417,10 +389,6 @@ h5 {
 
 /* Tablets or smaller laptops */
 @media (max-width: 1366px) {
-    .sidebar-panel {
-        min-width: 220px;
-        font-size: 14px;
-    }
 }
 
 /* Mobile or very small screens */
@@ -431,13 +399,6 @@ h5 {
 
     .left-panel {
         width: 100%;
-    }
-
-    .sidebar-panel {
-        width: 100%;
-        min-width: unset;
-        max-width: unset;
-        height: auto;
     }
 
     .right-panel {

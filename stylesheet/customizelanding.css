@@ -42,68 +42,7 @@ html, body {
   height: 100vh;
 }
 
-.sidebar-panel {
-  padding: 10px;
-  background-color: #006682;
-  min-width: 252px;
-  max-width: 252px;
-  /* ensure sidebar spans the full height of left-panel */
-  height: 100%;
-  overflow-y: auto; /* allow sidebar to scroll independently if needed */
-}
 
-.sidebar-panel h1 {
-  font-weight: 600;
-  font-size: 40px;
-  color: white;
-  margin-bottom: 26px;
-}
-
-.nav-links {
-  background-color: transparent;
-}
-
-/* nav links list */
-.nav-links ul {
-  background-color: transparent;
-  list-style: none;
-  padding: 10px;
-}
-
-.nav-links h6 {
-  font-size: 17px;
-  font-weight: 300;
-  color: #FFFFFFBF;
-  margin-bottom: 11px;
-}
-
-.nav-links i {
-  height: 18px;
-  width: 18px;
-  margin-right: 10px;
-  margin-left: 5px;
-  color: white;
-}
-
-.nav-links li {
-  text-decoration: none;
-  background-color: transparent;
-  margin-bottom: 10px;
-  padding: 4px;
-}
-
-.camera-view-drop-down { margin-left: 20px; }
-
-.nav-links a {
-  text-decoration: none;
-  color: white;
-  font-weight: bold;
-}
-
-.nav-links li:hover {
-  background-color: #2789A4;
-  border-radius: 6px;
-}
 
 /* -------------------------
    4) Right panel and main content
@@ -456,8 +395,6 @@ html, body {
    12) Responsive tweaks
    ------------------------- */
 @media (max-width: 992px) {
-  .sidebar-panel { display: none; } /* collapse sidebar on smaller screens */
-  .left-panel { display: none; }
   .right-panel { margin-left: 0; }
   .current-images { gap: 10px; }
   .preview-card { width: 160px; }
