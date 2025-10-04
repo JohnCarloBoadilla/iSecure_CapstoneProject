@@ -286,6 +286,7 @@ if (!empty($session['user_id'])) {
         <div class="tab-content" id="visitorTabContent" style="margin-top: 10px;">
           <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
             <!-- Details tab content can be repeated or customized if needed -->
+            <button id="nextToVerify" class="btn btn-primary float-end">Verify</button>
           </div>
           <div class="tab-pane fade" id="verify" role="tabpanel" aria-labelledby="verify-tab">
             <div>
@@ -306,8 +307,21 @@ if (!empty($session['user_id'])) {
             <button id="nextToId" class="btn btn-primary float-end">Next</button>
           </div>
           <div class="tab-pane fade" id="id" role="tabpanel" aria-labelledby="id-tab">
-            <div id="idRecognitionContainer" style="min-height: 200px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 15px;">
-              <!-- ID recognition feature under development -->
+            <div class="row">
+              <div class="col-md-6">
+                <div class="text-center">
+                  <h5>ID Image</h5>
+                  <img id="idTabImage" src="" alt="ID Image" style="max-width: 100%; max-height: 300px; border: 1px solid #ccc; border-radius: 8px;">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div id="ocrResults" style="min-height: 200px; border: 1px solid #ccc; border-radius: 8px; padding: 15px; background-color: #f8f9fa;">
+                  <h5>Extracted ID Details</h5>
+                  <div id="ocrContent">
+                    <p class="text-muted">Processing ID image for OCR...</p>
+                  </div>
+                </div>
+              </div>
             </div>
             <button id="markEntryBtn" class="btn btn-success float-end">Mark Entry</button>
           </div>

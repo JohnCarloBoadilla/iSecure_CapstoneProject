@@ -69,7 +69,8 @@ async def recognize_vehicle(file: UploadFile = File(...)):
 @app.post("/ocr/id")
 async def ocr_id(file: UploadFile = File(...)):
     try:
-        result = await asyncio.get_event_loop().run_in_executor(executor, extract_id_info, file)
+        contents = await file.read()
+        result = await asyncio.get_event_loop().run_in_executor(executor, extract_id_info, contents)
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

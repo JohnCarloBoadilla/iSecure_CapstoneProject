@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const markEntryBtn = document.getElementById("markEntryBtn");
   const saveTimeBtn = document.getElementById("saveTimeBtn");
   const logoutLink = document.getElementById("logout-link");
+  const idTabImage = document.getElementById("idTabImage");
+  const ocrContent = document.getElementById("ocrContent");
 
   const expectedVisitorsTbody = document.querySelector("#expectedVisitorsTable tbody");
   const insideVisitorsTbody = document.querySelector("#insideVisitorsTable tbody");
@@ -74,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("visitorIDPhoto").src = visitor.id_photo_path;
       document.getElementById("visitorSelfie").src = visitor.selfie_photo_path;
       document.getElementById("vehiclePhoto").src = visitor.vehicle_photo_path || '';
+      idTabImage.src = visitor.id_photo_path;
 
     currentVisitorId = visitor.id;
 
@@ -214,6 +217,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (visitorDetailsSection) {
       visitorDetailsSection.style.display = (target === '#details') ? 'block' : 'none';
     }
+
+    // If ID tab is shown, run OCR on the ID image
+    if (target === '#id' && idTabImage.src) {
+      runOCR(idTabImage.src);
+    }
   });
 
   markEntryBtn?.addEventListener("click", () => {
@@ -244,6 +252,71 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "logout.php";
     }
   });
+
+  // Function to convert image blob to PNG
+  async function convertToPNG(blob) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob(resolve, 'image/png');
+      };
+      img.onerror = reject;
+      img.src = URL.createObjectURL(blob);
+    });
+  }
+
+  // Function to run OCR on an image URL
+  async function runOCR(imageUrl) {
+    // Clear previous OCR content
+    ocrContent.innerHTML = '<p class="text-muted">Processing image, please wait...</p>';
+
+    try {
+      // Fetch the image as blob
+      const response = await fetch(imageUrl);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch image: ${response.statusText}`);
+      }
+      const blob = await response.blob();
+
+      // Convert to PNG
+      const pngBlob = await convertToPNG(blob);
+
+      // Prepare form data
+      const formData = new FormData();
+      formData.append("file", pngBlob, "id_image.png");
+
+      const ocrResponse = await fetch("http://localhost:8000/ocr/id", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!ocrResponse.ok) {
+        throw new Error(`Server error: ${ocrResponse.statusText}`);
+      }
+
+      const data = await ocrResponse.json();
+
+      // Display extracted details
+      if (data && Object.keys(data).length > 0) {
+        let html = "<ul class='list-group'>";
+        for (const [key, value] of Object.entries(data)) {
+          html += `<li class="list-group-item"><strong>${key}:</strong> ${value || "<em>Not detected</em>"}</li>`;
+        }
+        html += "</ul>";
+        ocrContent.innerHTML = html;
+      } else {
+        ocrContent.innerHTML = '<p class="text-muted">No details extracted.</p>';
+      }
+    } catch (error) {
+      console.error("Error during OCR request:", error);
+      ocrContent.innerHTML = `<p class="text-danger">Error processing image: ${error.message}</p>`;
+    }
+  }
 
   // ----- Initial Load -----
   loadExpectedVisitors();
