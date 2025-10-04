@@ -17,9 +17,9 @@ def load_locations(file_path):
     except FileNotFoundError:
         return set()
 
-provinces = load_locations('app/services/ocr/province.txt')
-municipalities = load_locations('app/services/ocr/municipality.txt')
-barangays = load_locations('app/services/ocr/barangay.txt')
+provinces = load_locations('province.txt')
+municipalities = load_locations('municipality.txt')
+barangays = load_locations('barangay.txt')
 philippine_locations = barangays | municipalities | provinces
 
 def autocorrect_text(text, word_list):
@@ -49,12 +49,12 @@ def extract_id_info(image_bytes):
 
             # Define ROIs for ID fields
             fields = {
-                "ID Number": (90, 335, 750, 120),
+                "ID Number": (80, 320, 750, 120),
                 "Last Name": (885, 465, 590, 100),
                 "Given Name": (890, 630, 650, 80),
                 "Middle Name": (890, 830, 590, 85),
                 "Date of Birth": (890, 960, 700, 100),
-                "Address": (90, 1080, 1150, 150)
+                "Address": (90, 1080, 1270, 150)
             }
 
             # Function to run OCR on a ROI
@@ -110,7 +110,7 @@ def extract_id_info(image_bytes):
                             municipality = location_words[-2]
                             barangay = ' '.join(location_words[:-2])
                             barangay = autocorrect_text(barangay, barangays)
-                            municipality = autocorrect_text(municipipality, municipalities)
+                            municipality = autocorrect_text(municipality, municipalities)
                             province = autocorrect_text(province, provinces)
                             extracted["Address"] = f"{house_street}, {barangay}, {municipality}, {province}"
                         else:
