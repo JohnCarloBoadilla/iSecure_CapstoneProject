@@ -51,6 +51,7 @@ if ($role !== 'User') {
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="../../stylesheet/personnel_dashboard.css">
+  <link rel="stylesheet" href="../../stylesheet/sidebar.css">
 </head>
 <body>
 

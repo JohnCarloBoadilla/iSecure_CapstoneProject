@@ -48,14 +48,14 @@ if ($token) {
 
   <div class="header">
   <div class="left-group">
-    <div class="basa-logo"><img src=".\images\logo\5thFighterWing-logo.png" alt="BASA Logo"></div>
+    <div class="basa-logo"><img src="..\..\images\logo\5thFighterWing-logo.png" alt="BASA Logo"></div>
     <h1>5TH FIGHTER WING</h1>
   </div>
 
   <div class="right-group">
-    <div class="transparency-logo"><img src=".\images\logo\Transparency Seal - img.png" alt="Transparency Logo"></div>
-    <div class="phaf-logo"><img src=".\images\logo\Philippine Airforce - Logo.png" alt="PHAF Logo"></div>
-    <div class="bagongpilipinas-logo"><img src=".\images\logo\Bagong Pilipinas - Logo.png" alt="Bagong Pilipinas Logo"></div>
+    <div class="transparency-logo"><img src="..\..\images\logo\Transparency Seal - img.png" alt="Transparency Logo"></div>
+    <div class="phaf-logo"><img src="..\..\images\logo\Philippine Airforce - Logo.png" alt="PHAF Logo"></div>
+    <div class="bagongpilipinas-logo"><img src="..\..\images\logo\Bagong Pilipinas - Logo.png" alt="Bagong Pilipinas Logo"></div>
   </div>
 </div>
 
