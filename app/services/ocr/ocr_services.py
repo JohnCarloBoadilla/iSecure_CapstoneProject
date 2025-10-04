@@ -54,7 +54,7 @@ def extract_id_info(image_bytes):
                 "Given Name": (890, 630, 650, 80),
                 "Middle Name": (890, 830, 590, 85),
                 "Date of Birth": (890, 960, 700, 100),
-                "Address": (90, 1080, 1270, 150)
+                "Address": (90, 1080, 1330, 150)
             }
 
             # Function to run OCR on a ROI
