@@ -64,7 +64,7 @@ if (!empty($session['user_id'])) {
     <link rel="icon" type="image/png" href="../../images/logo/5thFighterWing-logo.png">
     <!-- Your existing CSS -->
     <link rel="stylesheet" href="../../stylesheet/personnelaccounts.css">
-        <link rel="stylesheet" href="../../stylesheet/sidebar.css">
+    <link rel="stylesheet" href="../../stylesheet/sidebar.css">
 </head>
 <body>
 
@@ -115,12 +115,19 @@ if (!empty($session['user_id'])) {
         <input class="search-bar" type="text" name="search" id="search" placeholder="Search by name or email">
         <i id="search-icon" class="fa-solid fa-search"></i>
 
-        <button class="role-btn" onclick="showDropdown()"><i class="fa-solid fa-user"></i>    Roles    <i class="fa-solid fa-caret-down"></i></button>
-       <?php if ($role === 'Admin'): ?>
+        <div class="dropdown">
+          <button class="role-btn"><i class="fa-solid fa-user"></i> Roles <i class="fa-solid fa-caret-down"></i></button>
+          <div id="roleDropdown" class="dropdown-content">
+            <a href="#" data-role="all">All Roles</a>
+            <a href="#" data-role="Admin">Admin</a>
+            <a href="#" data-role="User">User</a>
+          </div>
+        </div>
+        <?php if ($role === 'Admin'): ?>
         <button id="addPersonnelBtn" class="add-btn">+ Add Personnel</button>
-       <?php endif; ?>
+        <?php endif; ?>
     </div>
-   
+
     <!-- Users Table -->
     <table id="userTable">
   <thead>
@@ -188,8 +195,8 @@ if (!empty($session['user_id'])) {
       </select>
 
       <div class="modal-actions">
-        <button class="confirm" type="submit" id="saveUserBtn">✅ Create Account</button>
-        <button class="cancel" type="button" id="cancelAddBtn">❌ Cancel</button>
+        <button class="confirm" type="submit" id="saveUserBtn">Create Account</button>
+        <button class="cancel" type="button" id="cancelAddBtn">Cancel</button>
       </div>
     </form>
   </div>
@@ -238,8 +245,8 @@ if (!empty($session['user_id'])) {
       </select>
 
       <div class="modal-actions">
-        <button class="confirm" type="submit" id="updateUserBtn">✅ Update Account</button>
-        <button class="cancel" type="button" id="cancelEditBtn">❌ Cancel</button>
+        <button class="confirm" type="submit" id="updateUserBtn"> Update Account</button>
+        <button class="cancel" type="button" id="cancelEditBtn"> Cancel</button>
       </div>
     </form>
   </div>
@@ -271,7 +278,7 @@ if (!empty($session['user_id'])) {
 </div>
 
 <!-- Scripts -->
- <script src="../../scripts/sidebar.js"></script>
+<script src="../../scripts/sidebar.js"></script>
 <script src="../../scripts/personnelaccount.js"></script>
 <script src="../../scripts/session_check.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

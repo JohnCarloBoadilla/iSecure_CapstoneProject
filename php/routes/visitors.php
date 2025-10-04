@@ -89,7 +89,7 @@ if (!empty($session['user_id'])) {
         </div>
       </div>
 
-           <!-- Confirm Modal -->
+      <!-- Confirm Modal -->
       <div id="confirmModal" class="modal">
         <div class="modal-content">
           <p id="confirmMessage"></p>
@@ -100,25 +100,73 @@ if (!empty($session['user_id'])) {
         </div>
       </div>
 
-      <!-- Visitors Table -->
-      <div class="card mt-4">
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-bordered table-striped" id="visitorsTable">
-              <thead class="table-light">
-                <tr>
-                  <th>Full Name</th>
-                  <th>Contact</th>
-                  <th>Date</th>
-                  <th>Time In</th>
-                  <th>Time Out</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
+      <!-- Expected Visitors -->
+      <div class="vehicles-container">
+        <h5 class="table-title">Expected Visitors</h5>
+        <div class="table-responsive">
+          <table id="expectedVisitorsTable">
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Contact</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="6" class="text-center">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Inside Visitors -->
+      <div class="vehicles-container">
+        <h5 class="table-title">Inside Visitors</h5>
+        <div class="table-responsive">
+          <table id="insideVisitorsTable">
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Contact</th>
+                <th>Key Card Number</th>
+                <th>Time In</th>
+                <th>Time Out</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="8" class="text-center">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Exited Visitors -->
+      <div class="vehicles-container">
+        <h5 class="table-title">Exited Visitors</h5>
+        <div class="table-responsive">
+          <table id="exitedVisitorsTable">
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Contact</th>
+                <th>Key Card Number</th>
+                <th>Time In</th>
+                <th>Time Out</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="8" class="text-center">Loading...</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -126,145 +174,154 @@ if (!empty($session['user_id'])) {
   </div>
 </div>
 
-<!-- Edit Time Out Modal -->
+<!-- Modals -->
 <div class="modal fade" id="editTimeModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header bg-warning text-dark">
-        <h5 class="modal-title">Edit Time Out</h5>
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Visitor Time</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <form id="editTimeForm">
-          <input type="hidden" id="editVisitorId">
+          <input type="hidden" id="editVisitorId" name="visitor_id">
+          <div class="mb-3">
+            <label for="editTimeIn" class="form-label">Time In</label>
+            <input type="datetime-local" id="editTimeIn" name="time_in" class="form-control">
+          </div>
           <div class="mb-3">
             <label for="editTimeOut" class="form-label">Time Out</label>
-            <input type="time" class="form-control" id="editTimeOut" required>
+            <input type="datetime-local" id="editTimeOut" name="time_out" class="form-control">
           </div>
-          <div class="mb-3">
-            <label for="editValidityStart" class="form-label">Validity Start</label>
-            <input type="datetime-local" class="form-control" id="editValidityStart" required>
-          </div>
-          <div class="mb-3">
-            <label for="editValidityEnd" class="form-label">Validity End</label>
-            <input type="datetime-local" class="form-control" id="editValidityEnd" required>
-          </div>
+          <button type="submit" class="btn btn-primary">Save</button>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="saveTimeBtn" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>
 </div>
 
-
-<!-- Visitor Details Modal -->
+<!-- Updated modal to match requested style with verification tabs -->
 <div class="modal fade" id="visitorDetailsModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
+  <div class="modal-dialog" style="max-width: 100rem;">
+    <div class="modal-content" style="background-color: #ffffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); height: 50rem;">
+      <div class="modal-header" style="border-bottom: none; padding-bottom: 0.5rem;">
         <h5 class="modal-title">Visitor Details</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-      <div class="modal-body">
-        <!-- Tabs -->
-        <ul class="nav nav-tabs" id="visitorTab" role="tablist">
+      <div class="modal-body" style="background-color: white; border-radius: 12px; padding: 1rem;">
+        <ul class="nav nav-tabs mt-4" id="visitorTab" role="tablist" style="border-bottom: none;">
           <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">Details</button>
+            <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="details" aria-selected="true">Details</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="verify-tab" data-bs-toggle="tab" data-bs-target="#verify" type="button" role="tab">Verify</button>
+            <button class="nav-link" id="verify-tab" data-bs-toggle="tab" data-bs-target="#verify" type="button" role="tab" aria-controls="verify" aria-selected="false">Verify</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="facial-tab" data-bs-toggle="tab" data-bs-target="#facial" type="button" role="tab">Facial Verification</button>
+            <button class="nav-link" id="facial-tab" data-bs-toggle="tab" data-bs-target="#facial" type="button" role="tab" aria-controls="facial" aria-selected="false">Facial</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="vehicle-tab" data-bs-toggle="tab" data-bs-target="#vehicle" type="button" role="tab">Vehicle Verification</button>
+            <button class="nav-link" id="vehicle-tab" data-bs-toggle="tab" data-bs-target="#vehicle" type="button" role="tab" aria-controls="vehicle" aria-selected="false">Vehicle</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="id-tab" data-bs-toggle="tab" data-bs-target="#id" type="button" role="tab">ID Verification</button>
+            <button class="nav-link" id="id-tab" data-bs-toggle="tab" data-bs-target="#id" type="button" role="tab" aria-controls="id" aria-selected="false">ID</button>
           </li>
         </ul>
-
-        <div class="tab-content mt-3">
-          <!-- Visitor Details -->
-          <div class="tab-pane fade show active" id="details" role="tabpanel">
-            <p><strong>Full Name:</strong> <span id="visitorName"></span></p>
-            <p><strong>Contact:</strong> <span id="visitorContact"></span></p>
-            <p><strong>Email:</strong> <span id="visitorEmail"></span></p>
-            <p><strong>Address:</strong> <span id="visitorAddress"></span></p>
-            <p><strong>Reason:</strong> <span id="visitorReason"></span></p>
-            <div class="row mt-3">
-              <div class="col-md-6 text-center">
-                <h6>ID Photo</h6>
-                <img id="visitorIDPhoto" src="" alt="ID Photo" class="img-fluid rounded shadow">
-              </div>
-              <div class="col-md-6 text-center">
-                <h6>Selfie Photo</h6>
-                <img id="visitorSelfie" src="" alt="Selfie Photo" class="img-fluid rounded shadow">
-              </div>
+        <div id="visitorDetailsSection">
+          <div class="table-responsive" style="overflow-x: auto;">
+            <table class="table table-bordered text-center mb-0" style="table-layout: auto; white-space: nowrap;">
+              <thead class="bg-info text-white">
+                <tr>
+                  <th style="width: 45%;">Name</th>
+                  <th style="width: 45%;">Home Address</th>
+                  <th style="width: 45%;">Contact</th>
+                  <th style="width: 45%;">Email</th>
+                  <th style="width: 45%;">Date</th>
+                  <th style="width: 45%;">Time</th>
+                  <th style="width: 45%;">Reason</th>
+                  <th style="width: 45%;">Personnel to Visit</th>
+                  <th style="width: 45%;">Office to Visit</th>
+                  <th style="width: 45%;">Vehicle Owner</th>
+                  <th style="width: 45%;">Vehicle Brand</th>
+                  <th style="width: 45%;">Vehicle Model</th>
+                  <th style="width: 45%;">Vehicle Color</th>
+                  <th style="width: 45%;">Plate Number</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="visitorNameCell" style="font-weight: 600;"></td>
+                  <td id="visitorAddressCell"></td>
+                  <td id="visitorContactCell"></td>
+                  <td id="visitorEmailCell"></td>
+                  <td id="visitorDateCell"></td>
+                  <td id="visitorTimeCell"></td>
+                  <td id="visitorReasonCell"></td>
+                  <td id="visitorPersonnelCell"></td>
+                  <td id="visitorOfficeCell"></td>
+                  <td id="vehicleOwnerCell"></td>
+                  <td id="vehicleBrandCell"></td>
+                  <td id="vehicleModelCell"></td>
+                  <td id="vehicleColorCell"></td>
+                  <td id="plateNumberCell"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="d-flex justify-content-center gap-4 mt-4">
+            <div class="text-center">
+              <strong>Valid ID</strong><br>
+              <img id="visitorIDPhoto" src="" alt="Valid ID" style="max-width: 150px; max-height: 100px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
             </div>
-            <button id="nextToVerify" class="btn btn-primary mt-3">Next</button>
-          </div>
-
-          <!-- Verify Tab -->
-          <div class="tab-pane fade" id="verify" role="tabpanel">
-            <h6>Verification Checklist</h6>
-            <ul>
-              <li>Facial Verification</li>
-              <li>Vehicle Verification</li>
-              <li>ID Verification</li>
-            </ul>
-            <button id="nextToFacial" class="btn btn-primary mt-3">Next</button>
-          </div>
-
-          <!-- Facial Verification Tab -->
-          <div class="tab-pane fade" id="facial" role="tabpanel">
-            <h6>Facial Verification</h6>
-            <div class="row">
-              <div class="col-md-6">
-                <h6>Live Camera Feed</h6>
-                <div style="position: relative; display: inline-block;">
-                  <video id="facialVideo" autoplay playsinline style="width: 100%; max-width: 400px;"></video>
-                  <canvas id="facialCanvas" style="position: absolute; top: 0; left: 0; width: 100%; max-width: 400px; height: auto;"></canvas>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <h6>Visitor Selfie</h6>
-                <img id="facialSelfie" src="" alt="Selfie" class="img-fluid" style="max-width: 400px;">
-              </div>
+            <div class="text-center">
+              <strong>Selfie Photo</strong><br>
+              <img id="visitorSelfie" src="" alt="Selfie" style="max-width: 150px; max-height: 150px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
             </div>
-            <div id="facialResult" class="mt-3 alert" style="display: none;"></div>
-            <button id="nextToVehicle" class="btn btn-primary mt-3">Next</button>
+            <div class="text-center">
+              <strong>Vehicle Photo</strong><br>
+              <img id="vehiclePhoto" src="" alt="Vehicle Photo" style="max-width: 150px; max-height: 100px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+            </div>
           </div>
-
-          <!-- Vehicle Verification Tab -->
-          <div class="tab-pane fade" id="vehicle" role="tabpanel">
-            <h6>Vehicle Verification</h6>
-            <div id="vehicleContainer">Container for vehicle verification feature</div>
-            <button id="nextToId" class="btn btn-primary mt-3">Next</button>
-            <button id="skipVehicle" class="btn btn-secondary mt-3 ms-2">Skip</button>
+        </div>
+        
+        <div class="tab-content" id="visitorTabContent" style="margin-top: 10px;">
+          <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+            <!-- Details tab content can be repeated or customized if needed -->
           </div>
-
-          <!-- ID Verification Tab -->
-          <div class="tab-pane fade" id="id" role="tabpanel">
-            <h6>ID Verification</h6>
-            <div id="idContainer">Container for ID verification feature</div>
-            <button id="markEntryBtn" class="btn btn-success mt-3">Mark Entry</button>
-            <button id="rejectBtn" class="btn btn-danger mt-3">Reject</button>
+          <div class="tab-pane fade" id="verify" role="tabpanel" aria-labelledby="verify-tab">
+            <div>
+              <button id="nextToFacial" class="btn btn-primary float-end">Next</button>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="facial" role="tabpanel" aria-labelledby="facial-tab">
+            <div id="facialRecognitionContainer" style="min-height: 200px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 15px;">
+              <!-- Facial recognition feature under development -->
+            </div>
+            <button id="nextToVehicle" class="btn btn-primary float-end">Next</button>
+          </div>
+          <div class="tab-pane fade" id="vehicle" role="tabpanel" aria-labelledby="vehicle-tab">
+            <div id="vehicleRecognitionContainer" style="min-height: 200px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 15px;">
+              <!-- Vehicle license plate recognition feature under development -->
+            </div>
+            <button id="skipVehicle" class="btn btn-secondary float-start">Skip</button>
+            <button id="nextToId" class="btn btn-primary float-end">Next</button>
+          </div>
+          <div class="tab-pane fade" id="id" role="tabpanel" aria-labelledby="id-tab">
+            <div id="idRecognitionContainer" style="min-height: 200px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 15px;">
+              <!-- ID recognition feature under development -->
+            </div>
+            <button id="markEntryBtn" class="btn btn-success float-end">Mark Entry</button>
           </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <div class="modal-footer" style="border-top: none;">
+        <!-- Add any footer buttons if needed -->
       </div>
     </div>
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
-<script src="../../scripts/sidebar.js"></script>
+
+<!-- Scripts -->
+ <script src="../../scripts/sidebar.js"></script>
 <script src="../../scripts/visitors.js"></script>
 <script src="../../scripts/session_check.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

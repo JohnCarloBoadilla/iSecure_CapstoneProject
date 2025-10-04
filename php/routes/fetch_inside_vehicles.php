@@ -5,7 +5,8 @@ require '../database/db_connect.php';
 header('Content-Type: application/json');
 
 try {
-    $stmt = $pdo->prepare("SELECT id, vehicle_owner, vehicle_brand, vehicle_model, vehicle_color, plate_number, entry_time, exit_time, status
+    // Make status comparison case-insensitive
+    $stmt = $pdo->prepare("SELECT id, vehicle_owner AS driver_name, vehicle_brand, vehicle_model, vehicle_color, plate_number, entry_time, exit_time, status
                            FROM vehicles
                            WHERE status = 'Inside'
                            ORDER BY entry_time DESC");
@@ -14,5 +15,5 @@ try {
 
     echo json_encode($vehicles);
 } catch (Exception $e) {
-    echo json_encode([]);
+    echo json_encode(['error' => $e->getMessage()]);
 }

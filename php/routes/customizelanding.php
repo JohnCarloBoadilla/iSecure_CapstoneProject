@@ -6,81 +6,59 @@ require '../database/db_connect.php';
 $fullName = 'Unknown User';
 $role = 'Unknown Role';
 
-// Session validation and user authentication
-try {
-    // Check if session token exists
-    if (!isset($_SESSION['token'])) {
-        header("Location: loginpage.php");
-        exit;
-    }
+// Check session token
+if (!isset($_SESSION['token'])) {
+    header("Location: loginpage.php");
+    exit;
+}
 
-    // Validate session token in database
-    $stmt = $pdo->prepare("SELECT * FROM personnel_sessions WHERE token = :token AND expires_at > NOW()");
-    $stmt->execute([':token' => $_SESSION['token']]);
-    $session = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt = $pdo->prepare("SELECT * FROM personnel_sessions WHERE token = :token AND expires_at > NOW()");
+$stmt->execute([':token' => $_SESSION['token']]);
+$session = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$session) {
-        session_unset();
-        session_destroy();
-        header("Location: loginpage.php");
-        exit;
-    }
-
-    // Fetch user details if session is valid
-    if (!empty($session['user_id'])) {
-        $stmt = $pdo->prepare("SELECT full_name, role FROM users WHERE id = :id LIMIT 1");
-        $stmt->execute([':id' => $session['user_id']]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user) {
-            $fullName = htmlspecialchars($user['full_name'], ENT_QUOTES, 'UTF-8');
-            $role = htmlspecialchars($user['role'], ENT_QUOTES, 'UTF-8');
-        } else {
-            session_unset();
-            session_destroy();
-            header("Location: loginpage.php");
-            exit;
-        }
-    } else {
-        session_unset();
-        session_destroy();
-        header("Location: loginpage.php");
-        exit;
-    }
-} catch (PDOException $e) {
-    // Handle database errors gracefully
-    error_log("Database error in customizelanding.php: " . $e->getMessage());
+if (!$session) {
     session_unset();
     session_destroy();
     header("Location: loginpage.php");
     exit;
 }
 
-// Fetch data for each section to populate previews
-// Use the real table names from your schema:
-// - landing_carousel
-// - landing_about_us
-// - landing_vision_mission
-// - news_carousel
-// - news_headlines
-// - landing_sidebar_sections
-try {
-    $carouselItems = $pdo->query("SELECT * FROM landing_carousel ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
-    $about = $pdo->query("SELECT * FROM landing_about_us WHERE id = 1")->fetch(PDO::FETCH_ASSOC);
-    $visionItems = $pdo->query("SELECT * FROM landing_vision_mission ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
-    $newsCarousel = $pdo->query("SELECT * FROM news_carousel ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
-    $headlines = $pdo->query("SELECT * FROM news_headlines ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
-    $sidebarItems = $pdo->query("SELECT * FROM landing_sidebar_sections ORDER BY FIELD(section_type, 'basa_announcements', 'west_philippine_sea', 'government_links')")->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    // Handle database errors gracefully, set defaults to empty
-    error_log("Database error fetching data in customizelanding.php: " . $e->getMessage());
-    $carouselItems = [];
-    $about = null;
-    $visionItems = [];
-    $newsCarousel = [];
-    $headlines = [];
-    $sidebarItems = [];
+if (!empty($session['user_id'])) {
+    $stmt = $pdo->prepare("SELECT full_name, role FROM users WHERE id = :id LIMIT 1");
+    $stmt->execute([':id' => $session['user_id']]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user) {
+        $fullName = htmlspecialchars($user['full_name'], ENT_QUOTES, 'UTF-8');
+        $role = htmlspecialchars($user['role'], ENT_QUOTES, 'UTF-8');
+    } else {
+        session_unset();
+        session_destroy();
+        header("Location: loginpage.php");
+        exit;
+    }
+} else {
+    session_unset();
+    session_destroy();
+    header("Location: loginpage.php");
+    exit;
 }
+
+/*
+ * --- NEW: Fetch data for each section so the previews work ---
+ * Use the real table names from your schema:
+ *  - landing_carousel
+ *  - landing_about_us
+ *  - landing_vision_mission
+ *  - news_carousel
+ *  - news_headlines
+ */
+$carouselItems = $pdo->query("SELECT * FROM landing_carousel ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+$about = $pdo->query("SELECT * FROM landing_about_us WHERE id = 1")->fetch(PDO::FETCH_ASSOC);
+$visionItems = $pdo->query("SELECT * FROM landing_vision_mission ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+$newsCarousel = $pdo->query("SELECT * FROM news_carousel ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+$headlines = $pdo->query("SELECT * FROM news_headlines ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+$sidebarItems = $pdo->query("SELECT * FROM landing_sidebar_sections ORDER BY FIELD(section_type, 'basa_announcements', 'west_philippine_sea', 'government_links')")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -93,7 +71,7 @@ try {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="icon" type="image/png" href="../../images/logo/5thFighterWing-logo.png">
   <link rel="stylesheet" href="../../stylesheet/customizelanding.css">
-    <link rel="stylesheet" href="../../stylesheet/sidebar.css">
+  <link rel="stylesheet" href="../../stylesheet/sidebar.css">
   <title>Main Dashboard</title>
   <style>
     /* small inline preview styles (keeps original CSS file unchanged) */
@@ -107,31 +85,33 @@ try {
 <body>
 
 <div class="body">
-  <div class="left-panel">
+
+<div class="left-panel">
   <div id="sidebar-container"></div>
-  </div>
+</div>
 
-  <div class="right-panel">
-    <div class="main-content">
-
-      <div class="main-header">
-        <div class="header-left">
-          <i class="fa-solid fa-home"></i>
-          <h6 class="path"> / Dashboard /</h6>
-          <h6 class="current-loc">Customize Landing Page</h6>
-        </div>
-        <div class="header-right">
-          <i class="fa-regular fa-bell me-3"></i>
-          <i class="fa-regular fa-message me-3"></i>
-          <div class="user-info">
-            <i class="fa-solid fa-user-circle fa-lg me-2"></i>
-            <div class="user-text">
-              <span class="username"><?= $fullName ?></span>
-              <a id="logout-link" class="logout-link" href="logout.php">Logout</a>
-            </div>
-          </div>
+<div class="right-panel">
+<div class="main-content">
+    
+      <div class="main-content">
+  <div class="main-header">
+    <div class="header-left">
+      <i class="fa-solid fa-home"></i> 
+      <h6 class="path"> / Dashboard /</h6>
+      <h6 class="current-loc">Customize Landing Page</h6>
+    </div>
+    <div class="header-right">
+      <i class="fa-regular fa-bell me-3"></i>
+      <i class="fa-regular fa-message me-3"></i>
+      <div class="user-info">
+        <i class="fa-solid fa-user-circle fa-lg me-2"></i>
+        <div class="user-text">
+          <span class="username"><?php echo $fullName; ?></span>
+          <a id="logout-link" class="logout-link" href="logout.php">Logout</a>
         </div>
       </div>
+    </div>
+  </div>
 
       <!-- Confirm Modal -->
       <div id="confirmModal" class="modal">
@@ -143,6 +123,13 @@ try {
           </div>
         </div>
       </div>
+
+      <?php if (isset($_GET['msg'])): ?>
+      <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+          <?= htmlspecialchars($_GET['msg']) ?>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <?php endif; ?>
 
       <div class="container-fluid mt-4">
         <h3>Customize Landing Page</h3>
@@ -480,5 +467,15 @@ try {
 <script src="../../scripts/sidebar.js"></script>
 <script src="../../scripts/session_check.js"></script>
 <script src="../../scripts/customizelanding.js"></script>
+<script>
+<?php if (isset($_GET['active_tab'])): ?>
+    var tabId = '<?= htmlspecialchars($_GET['active_tab']) ?>-tab';
+    var tabElement = document.getElementById(tabId);
+    if (tabElement) {
+        var tab = new bootstrap.Tab(tabElement);
+        tab.show();
+    }
+<?php endif; ?>
+</script>
 </body>
 </html>

@@ -11,33 +11,47 @@ if (!$id) {
 try {
     $stmt = $pdo->prepare("
         SELECT
-            id,
-            full_name,
-            contact_number,
-            email,
-            address,
-            reason,
-            id_photo_path,
-            selfie_photo_path,
-            date,
-            time_in,
-            time_out,
-            status
-        FROM visitors
-        WHERE id = :id
+            v.id,
+            CONCAT(v.first_name, ' ', v.last_name) AS full_name,
+            v.first_name,
+            v.last_name,
+            v.contact_number,
+            v.email,
+            v.address,
+            v.reason,
+            v.id_photo_path,
+            v.selfie_photo_path,
+            v.date,
+            v.time_in,
+            v.time_out,
+            v.status,
+            vr.personnel_related,
+            vr.driver_name,
+            vr.driver_id,
+            vr.office_to_visit AS office,
+            veh.vehicle_owner,
+            veh.vehicle_brand,
+            veh.vehicle_model,
+            veh.vehicle_color,
+            veh.plate_number,
+            veh.vehicle_photo_path
+        FROM visitors v
+        LEFT JOIN visitation_requests vr 
+            ON vr.visitor_name = CONCAT(v.first_name, ' ', v.last_name) 
+           AND vr.visit_date = v.date
+        LEFT JOIN vehicles veh 
+            ON veh.visitation_id = vr.id
+        WHERE v.id = :id
     ");
+    
     $stmt->execute([':id' => $id]);
     $visitor = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($visitor) {
-        // Ensure paths are absolute or correct relative URLs for frontend
-        $visitor['id_photo_path'] = $visitor['id_photo_path'] ? htmlspecialchars($visitor['id_photo_path'], ENT_QUOTES, 'UTF-8') : '';
-        $visitor['selfie_photo_path'] = $visitor['selfie_photo_path'] ? htmlspecialchars($visitor['selfie_photo_path'], ENT_QUOTES, 'UTF-8') : '';
         echo json_encode(['success' => true, 'data' => $visitor]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Visitor not found']);
     }
 } catch (Exception $e) {
-    error_log("Query error in fetch_visitor_details.php: " . $e->getMessage());
-    echo json_encode(['success' => false, 'message' => 'Query error: ' . $e->getMessage()]);
+    echo json_encode(['success' => false, 'message' => 'Query error']);
 }

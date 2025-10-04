@@ -45,7 +45,7 @@ if (!empty($session['user_id'])) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="icon" type="image/png" href="../../images/logo/5thFighterWing-logo.png">
   <link rel="stylesheet" href="../../stylesheet/vehicles.css">
-    <link rel="stylesheet" href="../../stylesheet/sidebar.css">
+  <link rel="stylesheet" href="../../stylesheet/sidebar.css">
   <title>Vehicles</title>
 </head>
 <body>
@@ -84,42 +84,59 @@ if (!empty($session['user_id'])) {
         </div>
       </div>
 
-<!-- ==== Expected Vehicles Table ==== -->
-<div class="vehicles-container">
-  <h5 class="table-title">Expected Vehicles</h5>
+      <!-- ==== Expected Vehicles Table ==== -->
+      <div class="vehicles-container mb-4">
+        <h5 class="table-title">Expected Vehicles</h5>
+        <div class="table-responsive">
+          <table id="expectedVehiclesTable" class="table table-striped">
+            <thead>
+              <tr>
+                <th>Driver</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Color</th>
+                <th>Plate No.</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="6" class="text-center">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ==== Inside Vehicles Table ==== -->
+      <div class="vehicles-container mb-4">
+        <h5 class="table-title">Inside Vehicles</h5>
+        <div class="table-responsive">
+          <table id="insideVehiclesTable" class="table table-striped">
+            <thead>
+              <tr>
+                <th>Driver</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Color</th>
+                <th>Plate No.</th>
+                <th>Entry Time</th>
+                <th>Exit Time</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="9" class="text-center">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <!-- ==== Exited Vehicles Table ==== -->
+ <div class="vehicles-container mb-4">
+  <h5 class="table-title">Exited Vehicles</h5>
   <div class="table-responsive">
-    <table id="expectedVehiclesTable">
+    <table id="exitedVehiclesTable" class="table table-striped">
       <thead>
         <tr>
-          <th>Owner</th>
-          <th>Brand</th>
-          <th>Model</th>
-          <th>Color</th>
-          <th>Plate No.</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td colspan="7" class="text-center">Loading...</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-
-
-
-<!-- ==== Inside Vehicles Table ==== -->
-<div class="vehicles-container">
-  <h5 class="table-title">Inside Vehicles</h5>
-  <div class="table-responsive">
-    <table id="insideVehiclesTable">
-      <thead>
-        <tr>
-          <th>Owner</th>
+          <th>Driver</th>
           <th>Brand</th>
           <th>Model</th>
           <th>Color</th>
@@ -127,36 +144,22 @@ if (!empty($session['user_id'])) {
           <th>Entry Time</th>
           <th>Exit Time</th>
           <th>Status</th>
-          <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td colspan="8" class="text-center">Loading...</td></tr>
+        <tr>
+          <td colspan="9" class="text-center">Loading...</td>
+        </tr>
       </tbody>
     </table>
   </div>
 </div>
 
 
-
     </div>
   </div>
 </div>
 
-<!-- Live View Modal -->
-<div id="liveViewModal" class="modal fade" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content p-3">
-      <div class="modal-header">
-        <h5 class="modal-title">Live Vehicle Capture</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeLiveView"></button>
-      </div>
-      <div class="modal-body" id="liveStreamContainer">
-        <!-- JS injects live feed here -->
-      </div>
-    </div>
-  </div>
-</div>
 <script src="../../scripts/sidebar.js"></script>
 <script src="../../scripts/vehicles.js"></script>
 <script src="../../scripts/session_check.js"></script>

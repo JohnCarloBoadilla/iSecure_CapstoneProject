@@ -3,7 +3,67 @@
     margin: 0;
     font-family: 'League Spartan', sans-serif;
     box-sizing: border-box;
-    overflow: hidden;
+    /* Removed overflow: hidden to prevent content clipping */
+}
+
+/* Fix .body overflow to allow scrolling */
+.body {
+    display: flex;
+    height: 100vh;
+    /* Changed overflow from hidden to auto to allow scrolling */
+    overflow: auto;
+    background-color: #F5F5F5;
+}
+
+/* Add styles for expectedVisitorsTable, insideVisitorsTable, and exitedVisitorsTable similar to visitorsTable */
+#expectedVisitorsTable,
+#insideVisitorsTable,
+#exitedVisitorsTable {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    border: #006682;
+    margin-top: 20px;
+}
+
+#expectedVisitorsTable th,
+#expectedVisitorsTable td,
+#insideVisitorsTable th,
+#insideVisitorsTable td,
+#exitedVisitorsTable th,
+#exitedVisitorsTable td {
+    padding: 12px;
+    text-align: center;
+    border: none;
+}
+
+#expectedVisitorsTable th,
+#insideVisitorsTable th,
+#exitedVisitorsTable th {
+    background: #5BB7D1;
+    color: white;
+    font-weight: bold;
+}
+
+#expectedVisitorsTable tr,
+#expectedVisitorsTable td,
+#insideVisitorsTable tr,
+#insideVisitorsTable td,
+#exitedVisitorsTable tr,
+#exitedVisitorsTable td {
+    background: transparent;
+    box-shadow: none;
+}
+
+/* Add spacing between table headers and content */
+h5 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+/* Add spacing between tables */
+#expectedVisitorsTable {
+    margin-bottom: 40px;
 }
 
 .body {
@@ -21,7 +81,73 @@
     flex: 1;
 }
 
+.sidebar-panel {
+    padding: 10px;
+    background-color: #006682;
+    min-width: 252px;
+    max-width: 252px;
+    height: 100%;
+}
 
+.sidebar-panel h1 {
+    font-weight: 600;
+    font-size: 40px;
+    color: white;
+    background-color: transparent;
+    margin-bottom: 26px;
+}
+
+.nav-links {
+    background-color: transparent;
+}
+
+.nav-links ul {
+   background-color: transparent;
+   list-style: none;
+   padding: 10px;
+   flex-wrap: wrap;
+}
+
+.nav-links h6 {
+    font-size: 17px;
+    font-weight: 300px;
+    color: #FFFFFFBF;
+    background-color: transparent;
+    margin-bottom: 11px;
+}
+
+.nav-links i {
+    height: 18px;
+    width: 18px;
+    margin-right: 10px;
+    margin-left: 5px;
+    color: white;
+    background-color: transparent;
+}
+
+.nav-links li {
+    text-decoration: none;
+    background-color: transparent;
+    margin-bottom: 10px;
+    padding: 4px;
+    flex-wrap: wrap;
+}
+
+.camera-view-drop-down {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    background-color: transparent;
+    color: white;
+    font-weight: bold;
+}
+
+.nav-links li:hover {
+    background-color: #2789A4;
+    border-radius: 6px;
+}
 
 .main-content {
     flex: 1;
@@ -105,6 +231,8 @@
 .header-rght i {
     height: 30px;
     width: 30px;
+    align-self: center;
+    justify-self: center;
 }
 
 .fa-user-circle {
@@ -132,7 +260,7 @@
 
 /* Override Bootstrap modal header */
 .modal-header {
-  background-color: #006682;
+  background-color:transparent;
   color: white;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -140,13 +268,12 @@
 }
 
 .modal-header .modal-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: black;
 }
 
 .modal-header .btn-close {
-  filter: brightness(0) invert(1); /* makes the X white */
   opacity: 0.8;
 }
 
@@ -289,6 +416,10 @@
 
 /* Tablets or smaller laptops */
 @media (max-width: 1366px) {
+    .sidebar-panel {
+        min-width: 220px;
+        font-size: 14px;
+    }
 }
 
 /* Mobile or very small screens */
@@ -301,7 +432,222 @@
         width: 100%;
     }
 
+    .sidebar-panel {
+        width: 100%;
+        min-width: unset;
+        max-width: unset;
+        height: auto;
+    }
+
     .right-panel {
         width: 100%;
     }
+}
+
+/* Visitor details modal improvements */
+.modal-body {
+    font-family: 'League Spartan', sans-serif;
+    color: #e0f2f1; /* Light text color for contrast */
+    line-height: 1.6;
+    max-width: 95rem;
+    max-height: 600px; /* limit height to avoid excessive scrolling */
+    margin: 0 auto;
+    margin-top: 30px;
+    background-color: #004d40; /* Dark teal background to match admin panel */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 77, 64, 0.6);
+    overflow-y: auto; /* enable vertical scrolling if content overflows */
+    display: block;
+}
+
+.modal-header {
+    background-color: white;
+    color: #e0f2f1;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    font-weight: 700;
+    font-size: 20px;
+    border-bottom: black solid;
+}
+
+.nav-tabs {
+    border-bottom: 2px solid #2789A4;
+}
+
+.nav-tabs .nav-link {
+    color: #e0f2f1;
+    font-weight: 600;
+    border: none;
+    border-radius: 0;
+    padding: 10px 20px;
+    margin-right: 5px;
+    background-color: transparent;
+}
+
+.nav-tabs .nav-link.active {
+    color: #004d40;
+    background-color: #e0f2f1;
+    border-radius: 12px 12px 0 0;
+    font-weight: 700;
+    box-shadow: 0 -3px 8px rgba(0, 77, 64, 0.4);
+}
+
+.tab-content {
+    background-color: #e0f2f1;
+    border-radius: 0 12px 12px 12px;
+    padding: 20px;
+    box-shadow: inset 0 0 10px rgba(0, 77, 64, 0.1);
+}
+
+.btn-primary {
+    background-color: #006682;
+    border: none;
+    font-weight: 700;
+}
+
+.btn-primary:hover {
+    background-color: #2789A4;
+}
+
+.btn-secondary {
+    background-color: #4b6e7a;
+    border: none;
+    font-weight: 700;
+    color: #e0f2f1;
+}
+
+.btn-secondary:hover {
+    background-color: #3a5560;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+    font-weight: 700;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.modal-body strong {
+    font-weight: 700;
+    color: #00796b; /* Medium teal */
+}
+
+.modal-body p {
+    margin-bottom: 14px;
+    font-size: 16px;
+}
+
+.modal-body #vehicleInfo,
+.modal-body #driverInfo {
+    margin-top: 25px;
+    border-top: 2px solid #00796b;
+    padding-top: 20px;
+}
+
+.modal-body #vehicleInfo strong,
+.modal-body #driverInfo strong {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #004d40;
+}
+
+.modal-body img {
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 77, 64, 0.3);
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.modal-body .photos {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.modal-body .photos > div {
+    flex: 1;
+    text-align: center;
+}
+
+.modal-body .photos img {
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: contain;
+    border: 2px solid #004d40;
+    border-radius: 10px;
+}
+
+/* Styles for visitor details modal table and images */
+.modal-body table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.modal-body table th,
+.modal-body table td {
+  padding: 8px 12px;
+  vertical-align: top;
+  border: 1px solid #dee2e6;
+}
+
+.image-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.image-box {
+  text-align: center;
+  flex: 0 0 auto;
+}
+
+.uniform-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+/* Fix table cell word wrapping and spacing in visitor details modal */
+#visitorDetailsModal table.table th,
+#visitorDetailsModal table.table td {
+  white-space: normal !important;
+  word-wrap: break-word;
+  vertical-align: middle;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+#visitorDetailsModal table.table thead th {
+  white-space: nowrap;
+  background-color:     rgba(13, 202, 240)  !important;
+}
+
+#visitorDetailsModal .image-container {
+  background-color: #004d40;
+  padding: 15px;
+  border-radius: 0 0 10px 10px;
+}
+
+#visitorDetailsModal .image-box img.uniform-image {
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+#visitorDetailsModal .image-box strong {
+  color: #a5d6a7;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  font-size: 14px;
 }

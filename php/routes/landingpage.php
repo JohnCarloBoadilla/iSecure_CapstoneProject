@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../database/db_connect.php';
+require '../database/db_connect.php'; 
 require 'audit_log.php'; 
 
 function generateRandomToken($length = 64) {
@@ -48,14 +48,14 @@ if ($token) {
 
   <div class="header">
   <div class="left-group">
-    <div class="basa-logo"><img src="../../images/logo/5thFighterWing-logo.png" alt="BASA Logo"></div>
+    <div class="basa-logo"><img src="..\..\images\logo\5thFighterWing-logo.png" alt="BASA Logo"></div>
     <h1>5TH FIGHTER WING</h1>
   </div>
 
   <div class="right-group">
-    <div class="transparency-logo"><img src="../../images/logo/Transparency Seal - img.png" alt="Transparency Logo"></div>
-    <div class="phaf-logo"><img src="../../images/logo/Philippine Airforce - Logo.png" alt="PHAF Logo"></div>
-    <div class="bagongpilipinas-logo"><img src="../../images/logo/Bagong Pilipinas - Logo.png" alt="Bagong Pilipinas Logo"></div>
+    <div class="transparency-logo"><img src="..\..\images\logo\Transparency Seal - img.png" alt="Transparency Logo"></div>
+    <div class="phaf-logo"><img src="..\..\images\logo\Philippine Airforce - Logo.png" alt="PHAF Logo"></div>
+    <div class="bagongpilipinas-logo"><img src="..\..\images\logo\Bagong Pilipinas - Logo.png" alt="Bagong Pilipinas Logo"></div>
   </div>
 </div>
 
@@ -85,7 +85,7 @@ if ($token) {
       foreach ($slides as $slide):
       ?>
         <div class="carousel-item <?= $isActive ? 'active' : '' ?>">
-          <img src="../../uploads/<?= htmlspecialchars($slide['image_path']) ?>" class="d-block w-100" alt="Carousel Slide" style="object-fit: cover; height: 500px;">
+          <img src="<?= htmlspecialchars($slide['image_path']) ?>" class="d-block w-100" alt="Carousel Slide" style="object-fit: cover; height: 500px;">
           <?php if (!empty($slide['caption_title']) || !empty($slide['caption_text'])): ?>
             <div class="carousel-caption d-none d-md-block">
               <h5><?= htmlspecialchars($slide['caption_title']) ?></h5>
@@ -111,16 +111,25 @@ if ($token) {
 </section>
 
     <!-- About Us -->
-  <div id="AboutUs" class="AboutUs">
+   <div id="AboutUs" class="AboutUs">
     <?php
 
     $stmt = $pdo->query("SELECT * FROM landing_about_us WHERE id = 1 LIMIT 1");
-    $about = $stmt->fetch(PDO::FETCH_ASSOC) ?: ['title' => 'About Us', 'content' => 'Default content'];
-    ?>
+    $about = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($about): ?>
 
     <h1 class="aboutush1"><?= htmlspecialchars($about['title']) ?></h1>
     <div class="hr-about"></div>
     <p><?= nl2br(htmlspecialchars($about['content'])) ?></p>
+
+    <?php else: ?>
+
+    <h1 class="aboutush1">About Us</h1>
+    <div class="hr-about"></div>
+    <p>No content available yet.</p>
+
+    <?php endif; ?>
 </div>
 
 
@@ -134,10 +143,10 @@ if ($token) {
     
     foreach ($cards as $card): ?>
         <div class="card" style="width: 35rem;">
-            <img src="../../uploads/<?= htmlspecialchars($card['image_path']) ?>" class="card-img-top" alt="<?= htmlspecialchars($card['title']) ?>-img">
+            <img src="<?= htmlspecialchars($card['image_path']) ?>" class="card-img-top" alt="<?= htmlspecialchars($card['title']) ?>-img">
             <div class="card-body">
                 <div class="bottom">
-                    <h4><?= htmlspecialchars($card['title']) ?></h4>
+                    <h4><?= htmlspecialchars($card['title']) ?></h4> 
                     <div class="bottom-right">
                         <a href="<?= htmlspecialchars($card['link_url']) ?>">View More</a>
                         <i class="fa-solid fa-arrow-right"></i>
@@ -151,7 +160,7 @@ if ($token) {
 
     <!-- News & Announcement -->
 
-  <section id="News" class="news-section">
+   <section id="News" class="news-section">
   <h1 class="section-title">NEWS & ANNOUNCEMENTS</h1>
 
   <div class="news-layout">
@@ -168,7 +177,7 @@ if ($token) {
           $active = "active";
           foreach ($carousel as $item): ?>
             <div class="carousel-item <?= $active ?>">
-              <img src="../../uploads/<?= htmlspecialchars($item['image_path']) ?>" class="d-block w-100" alt="News Carousel" style="object-fit: cover; height: 450px;">
+              <img src="<?= htmlspecialchars($item['image_path']) ?>" class="d-block w-100" alt="News Carousel" style="object-fit: cover; height: 450px;">
             </div>
           <?php $active = ""; endforeach; ?>
         </div>
@@ -188,7 +197,7 @@ if ($token) {
         $headlines = $pdo->query("SELECT * FROM news_headlines ORDER BY created_at DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
         foreach ($headlines as $news): ?>
           <div class="news-item">
-            <img src="../../uploads/<?= htmlspecialchars($news['image_path']) ?>" alt="<?= htmlspecialchars($news['title']) ?>" style="object-fit: cover; width: 200px; height: 150px;">
+            <img src="<?= htmlspecialchars($news['image_path']) ?>" alt="<?= htmlspecialchars($news['title']) ?>" style="object-fit: cover; width: 200px; height: 150px;">
             <div class="news-text">
               <h2><?= htmlspecialchars($news['title']) ?></h2>
               <p><?= htmlspecialchars($news['description']) ?></p>
@@ -204,11 +213,11 @@ if ($token) {
       <?php
       $stmt = $pdo->query("SELECT * FROM landing_sidebar_sections ORDER BY FIELD(section_type, 'basa_announcements', 'west_philippine_sea', 'government_links')");
       $sidebarItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
-      foreach ($sidebarItems as $item):
+      foreach ($sidebarItems as $item): 
       ?>
         <div class="sidebar-section card mb-3">
           <?php if (!empty($item['image_path'])): ?>
-            <img src="../../uploads/<?= htmlspecialchars($item['image_path']) ?>" class="sidebar-img card-img-top" alt="<?= htmlspecialchars($item['title']) ?>" style="object-fit: cover; height: 200px;">
+            <img src="<?= htmlspecialchars($item['image_path']) ?>" class="sidebar-img card-img-top" alt="<?= htmlspecialchars($item['title']) ?>" style="object-fit: cover; height: 200px;">
           <?php endif; ?>
           <div class="card-body">
             <h5 class="card-title"><?= htmlspecialchars($item['title']) ?></h5>
@@ -232,8 +241,11 @@ if ($token) {
   <h3>Visitor Information: </h3>
   <div class="visitor-information-section">
     <div class="visitor-info-column">
-      <label>Visitor Name:
-        <input type="text" name="visitor_name" placeholder="Enter full name" required>
+      <label>First Name:
+        <input type="text" name="first_name" placeholder="Enter first name" required>
+      </label>
+      <label>Last Name:
+        <input type="text" name="last_name" placeholder="Enter last name" required>
       </label>
       <label>Home Address:
         <input type="text" name="home_address" placeholder="Enter home address" required>
@@ -256,43 +268,50 @@ if ($token) {
     </div>
   </div>
 
-  <!-- Vehicle Info -->
-  <h3>Vehicle Information: </h3>
-  <div class="vehicle-information-section">
-    <div class="vehicle-info-column">
-      <label>Vehicle Owner:
-        <input type="text" name="vehicle_owner" placeholder="Owner name">
-      </label>
-      <label>Vehicle Brand:
-        <input type="text" name="vehicle_brand" placeholder="e.g. Toyota, Honda">
-      </label>
-      <label>Plate Number:
-        <input type="text" name="plate_number" placeholder="ABC-1234">
-      </label>
-    </div>
+  <label class="vehicle-radio-label">Do you have a vehicle?
+    <input type="radio" name="has_vehicle" value="yes" class="vehicle-radio"> Yes
+    <input type="radio" name="has_vehicle" value="no" checked class="vehicle-radio"> No
+  </label>
 
-    <div class="vehicle-info-column">
-      <label>Vehicle Color:
-        <input type="text" name="vehicle_color" placeholder="e.g. Red, Black">
-      </label>
-      <label>Vehicle Model:
-        <input type="text" name="vehicle_model" placeholder="e.g. Vios, Civic">
-      </label>
-      <label class="label-btn">Vehicle Photo:
-        <input type="file" name="vehicle_photo" accept="image/*">
-      </label>
+  <!-- Vehicle Info (Optional) -->
+  <h3 style="display: none;" class="vehicle-info-title">Vehicle Information:</h3>
+  <div class="vehicle-information-section" style="display: none;">
+    <div class="vehicle-info-columns-wrapper" style="display: flex; gap: 20px; width: 100%;">
+      <div class="vehicle-info-column">
+        <label>Vehicle Driver:
+          <input type="text" name="vehicle_owner" placeholder="Driver name" readonly>
+        </label>
+        <label>Vehicle Brand:
+          <input type="text" name="vehicle_brand" placeholder="e.g. Toyota, Honda">
+        </label>
+        <label>Plate Number:
+          <input type="text" name="plate_number" placeholder="ABC-1234">
+        </label>
+      </div>
+
+      <div class="vehicle-info-column">
+        <label>Vehicle Color:
+          <input type="text" name="vehicle_color" placeholder="e.g. Red, Black">
+        </label>
+        <label>Vehicle Type:
+          <input type="text" name="vehicle_type" placeholder="e.g. Sedan, SUV">
+        </label>
+        <label class="label-btn">Vehicle Photo:
+          <input type="file" name="vehicle_photo" accept="image/*">
+        </label>
+      </div>
     </div>
   </div>
 
   <!-- Schedule -->
-  <h3>Schedule Request: </h3>
-  <div class="schedule-request-section">
+  <h3 style="margin-top: 2rem;">Visit Information: </h3>
+  <div class="schedule-request-section" style="margin-top: 1rem;">
     <div class="schedule-req-div">
-      <label>Reason for Visitation:
-        <input type="text" name="reason" placeholder="Enter reason" required>
-      </label>
-      <label>Personnel Related to:
+      <label>Personnel to Visit:
         <input type="text" name="personnel_related" placeholder="Who will be visited">
+      </label>
+      <label>Office to Visit:
+        <input type="text" name="office_to_visit" placeholder="Office to visit">
       </label>
     </div>
 
@@ -300,6 +319,14 @@ if ($token) {
       <input type="date" name="visit_date" required>
       <input type="time" name="visit_time" required>
     </label>
+
+    <div class="schedule-req-div">
+      <br>
+    <label>Reason:
+      <input type="text" name="reason" placeholder="Enter reason" required>
+    </label>
+    </div>
+    
 
     <button type="submit" class="submit">Submit</button>
   </div>
@@ -358,9 +385,9 @@ if ($token) {
   <div class="footer-columns">
     <div class="col">
       <div class="col-img">
-         <img src="../../images/logo/5thFighterWing-logo.png" alt="Basa Logo">
-         <img src="../../images/logo/Bagong Pilipinas - Logo.png" alt="Bagong Pilipinas Logo">
-         <img src="../../images/logo/Philippine Airforce - Logo.png" alt="Philippine Air Force Logo">
+         <img src="..\..\images\logo\5thFighterWing-logo.png" alt="Basa Logo">
+         <img src="..\..\images\logo\Bagong Pilipinas - Logo.png" alt="Bagong Pilipinas Logo">
+         <img src="..\..\images\logo\Philippine Airforce - Logo.png" alt="Philippine Air Force Logo">
       </div>
       <br>
       <h5>Copyright © Basa Air Base 5th Fighter Wing. All Rights Reserved</h5>
@@ -377,14 +404,55 @@ if ($token) {
       <h4 class="right-panel-text">Developed By:</h4>
 
       <div id="left-col-img" class="col-img">
-        <img src="../../images/logo/pamsu - logo.png" alt="Pampanga State Univertisty Logo">
-        <img src="../../images/logo/ccs - log.png" alt="College of Computing Studies">
+        <img src="..\..\images\logo\pamsu - logo.png" alt="Pampanga State Univertisty Logo">
+        <img src="..\..\images\logo\ccs - log.png" alt="College of Computing Studies">
         <h4 class="right-panel-text2">CCS Students of Pampanga State University</h4>
       </div>
-
+     
     </div>
   </div>
      <script src="../../scripts/landingpage.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
-     </body>
+     <script>
+       document.querySelector('input[name="first_name"]').addEventListener('input', updateDriver);
+       document.querySelector('input[name="last_name"]').addEventListener('input', updateDriver);
+
+       function updateDriver() {
+         const first = document.querySelector('input[name="first_name"]').value;
+         const last = document.querySelector('input[name="last_name"]').value;
+         document.querySelector('input[name="vehicle_owner"]').value = first + ' ' + last;
+       }
+
+       document.querySelectorAll('input[name="has_vehicle"]').forEach(radio => {
+         radio.addEventListener('change', function() {
+           const vehicleSection = document.querySelector('.vehicle-information-section');
+           const vehicleTitle = document.querySelector('.vehicle-info-title');
+           if (this.value === 'yes') {
+             vehicleSection.style.display = 'block';
+             if (vehicleTitle) vehicleTitle.style.display = 'block';
+           } else {
+             vehicleSection.style.display = 'none';
+             if (vehicleTitle) vehicleTitle.style.display = 'none';
+             // Clear vehicle owner when no vehicle
+             document.querySelector('input[name="vehicle_owner"]').value = '';
+           }
+         });
+       });
+
+       document.querySelector('form.visitation-request-section').addEventListener('submit', function(e) {
+         const visitTime = document.querySelector('input[name="visit_time"]').value;
+         if (visitTime) {
+           const [hours, minutes] = visitTime.split(':').map(Number);
+           const totalMinutes = hours * 60 + minutes;
+           const startMinutes = 7 * 60; // 7:00 AM
+           const endMinutes = 19 * 60; // 7:00 PM
+          if (totalMinutes < startMinutes || totalMinutes > endMinutes) {
+            alert('The schedule of the visit cannot be scheduled since it’s outside working hours (7 AM to 7 PM).');
+            e.preventDefault();
+            return false;
+          }
+        }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    </body>
 </html>

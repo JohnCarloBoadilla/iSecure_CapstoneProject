@@ -21,8 +21,8 @@
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="../../stylesheet/admin.css">
-  <link rel="stylesheet" href="../../stylesheet/admin_maindashboard.css">
-    <link rel="stylesheet" href="../../stylesheet/sidebar.css">
+  <link rel="stylesheet" href="../../stylesheet/admin-maindashboard.css">
+  <link rel="stylesheet" href="../../stylesheet/sidebar.css">
 </head>
 <body>
 <div class="body">
@@ -203,7 +203,7 @@
                 <li>NISSAN NV - Visitor A</li>
               </ul>
             </div>
-            <div class="widget-footer"><a href="#">View full information</a></div>
+            <div class="widget-footer"><a href="vehicles.php">View full information</a></div>
           </div>
 
           <!-- User Activity -->
@@ -234,8 +234,8 @@
 <!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="../../scripts/admin.js"></script>
 <script src="../../scripts/sidebardashboard.js"></script>
+<script src="../../scripts/admin.js"></script>
 <script src="../../scripts/session_check.js"></script>
 </body>
 </html>
