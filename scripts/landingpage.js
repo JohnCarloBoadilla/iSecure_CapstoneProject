@@ -7,6 +7,25 @@ window.addEventListener("scroll", function () {
   }
 });
 
+// Hamburger menu toggle functionality
+document.addEventListener('DOMContentLoaded', () => {
+  // Create hamburger menu element
+  const hamburgerMenu = document.createElement('div');
+  hamburgerMenu.className = 'hamburger-menu';
+  hamburgerMenu.innerHTML = '<div></div><div></div><div></div>';
+
+  // Append to nav-links container
+  const navLinks = document.querySelector('.nav-links');
+  if (navLinks) {
+    navLinks.appendChild(hamburgerMenu);
+
+    hamburgerMenu.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      hamburgerMenu.classList.toggle('active');
+    });
+  }
+});
+
 
 let count = 0;
 const counter = document.getElementById("counter");

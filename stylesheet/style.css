@@ -159,6 +159,35 @@
     transition: width 0.3s ease-in;
 }
 
+/* Hamburger menu styles */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 5px;
+    background-color: transparent;
+}
+
+.hamburger-menu div {
+    width: 25px;
+    height: 3px;
+    background-color: #012650;
+    margin: 3px 0;
+    transition: 0.3s;
+}
+
+.hamburger-menu.active div:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.hamburger-menu.active div:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active div:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
 .carousel-inner {
   width: 100%;
   padding: 0;
@@ -178,7 +207,7 @@
 
 .AboutUs {
     margin-top: 30px;
-    padding:40px;
+    padding: 40px;
     justify-content: center;
     top: 0;
 }
@@ -554,7 +583,7 @@ img {
   gap: 15px;
   color: #003673;
   font-weight: 300;
-  font-size: 27px;
+  font-size: 20px;
   align-items: center;
   padding-right: 30px;
   justify-content: flex-start;
@@ -643,7 +672,7 @@ input[type="file"] {
   gap: 15px;
   color: #003673;
   font-weight: 300;
-  font-size: 27px;
+  font-size: 20px;
   align-items: center;
   padding-right: 30px;
   justify-content: flex-start;
@@ -847,7 +876,7 @@ input[type="file"] {
 }
 
 .footer-container {
-  background-color: #003673;
+  background-color: #003366;
   padding: 0;
   height: 265px;
 }
@@ -856,7 +885,7 @@ input[type="file"] {
   display: flex;
   gap: 100px;
   height: 265px;
-  background-color: #003673;
+  background-color: #003366;
 }
 
 .col {
@@ -871,9 +900,9 @@ input[type="file"] {
 #last-col {
   flex: 1;
   background-color: transparent;
-  margin-left: 100px;
+  margin-left: 0;
   padding-top: 80px;
-  text-align: center;
+  text-align: left;
 }
 
 .col h5 {
@@ -961,4 +990,427 @@ input[type="file"] {
   margin-left: 1rem;
   margin-right: 0.3rem;
   cursor: pointer;
+}
+
+.vehicle-info-columns-wrapper {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Tablet media query */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .header {
+    padding: 0 15px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+  }
+
+  .breadcrumb {
+    padding: 6px 5px;
+    font-size: 14px;
+  }
+
+  .nav-links ul {
+    gap: 25px;
+  }
+
+  .nav-links li a {
+    font-size: 18px;
+  }
+
+  .AboutUs {
+    padding: 12px 20px;
+  }
+
+  .AboutUs h1 {
+    font-size: 36px;
+  }
+
+  .AboutUs p {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .vision-mission {
+    gap: 10px;
+  }
+
+  .vision-mission .card {
+    width: 18rem;
+  }
+
+  .news-section {
+    padding: 12px 20px;
+  }
+
+  .news-section h1 {
+    font-size: 42px;
+  }
+
+  .news-layout {
+    padding: 15px 20px;
+  }
+
+  .visitation-request-section {
+    padding: 50px 60px;
+  }
+
+  .visitation-request-section h3 {
+    font-size: 32px;
+  }
+
+  .visitor-information-section label, .vehicle-information-section label {
+    font-size: 18px;
+  }
+
+  .visitor-info-column input, .vehicle-info-column input, .schedule-req-div input {
+    width: 160px;
+  }
+
+  .contact-us-section {
+    padding: 50px 60px;
+  }
+
+  .contact-us-section h1 {
+    font-size: 42px;
+  }
+
+  .footer-columns {
+    gap: 35px;
+  }
+
+  .col {
+    padding-left: 25px;
+  }
+}
+
+/* Mobile media query */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    height: auto;
+    padding: 6px 10px;
+  }
+
+  .header h1 {
+    font-size: 18px;
+  }
+
+  .left-group, .right-group {
+    gap: 6px;
+  }
+
+  .basa-logo img {
+    height: 45px;
+    width: 45px;
+  }
+
+  .transparency-logo img, .phaf-logo img, .bagongpilipinas-logo img {
+    height: 35px;
+    width: 35px;
+  }
+
+  .breadcrumb {
+    padding: 0;
+    font-size: 14px;
+  }
+
+  .nav-links {
+    position: relative;
+  }
+
+  .hamburger-menu {
+    display: flex;
+  }
+
+  .nav-links ul {
+    display: none;
+    gap: 12px;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: -78px;
+    width: 200px;
+    background-color: #b4c5df;
+    padding: 10px;
+    z-index: 1000;
+  }
+
+  .nav-links.active ul {
+    display: flex;
+    
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links li a {
+    font-size: 14px;
+    display: block;
+    padding: 10px;
+    
+    text-align: center;
+  }
+#slider, #carouselExampleIndicators, .carousel-inner {
+  margin-bottom: -40px;
+}
+  .carousel-inner img {
+    height: auto !important;
+    width: 100% !important;
+    object-fit: contain !important;
+  }
+
+  .AboutUs {
+    margin-top: 30px;
+    padding: 40px;
+    justify-content: center;
+    top: 0;
+  }
+
+  .AboutUs h1 {
+    font-size: 26px;
+  }
+
+  .AboutUs h1::after {
+    content: "";
+    display: block;
+    width: 15%;
+    height: 3px;
+    background-color: #003366;
+    margin: -2px auto 17px;
+  }
+
+  .AboutUs p {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    font-size: 16px;
+  }
+
+  .vision-mission {
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 10px;
+  }
+
+  .vision-mission .card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .card-body {
+    height: auto;
+    padding: 15px;
+  }
+
+  .bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .bottom h4 {
+    font-size: 14px;
+  }
+
+  .bottom-right {
+    margin-left: 0;
+    width: auto;
+    font-size: 12px;
+  }
+
+  .bottom-right a {
+    font-size: 14px;
+  }
+
+  .news-section {
+    padding: 6px 10px;
+  }
+
+  .news-section h1 {
+    font-size: 26px;
+  }
+
+  .news-section h1::after {
+    content: "";
+    display: block;
+    width: 50%;
+    height: 3px;
+    background-color: #003366;
+    margin: -2px auto 17px;
+  }
+
+  .news-layout {
+    grid-template-columns: 1fr;
+    padding: 6px 10px;
+  }
+
+  .news-item {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .news-item img {
+    width: 100%;
+    height: 160px;
+  }
+
+  .visith1 {
+    font-size: 26px;
+  }
+
+  .visith1::after {
+    content: "";
+    display: block;
+    width: 300px;
+    height: 3px;
+    background-color: #003366;
+    margin: -2px auto 20px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .visitation-request-section {
+    padding: 10px 15px;
+  }
+
+  .visitation-request-section h3 {
+    font-size: 22px;
+  }
+
+  .visitor-information-section, .vehicle-information-section {
+    display: grid;
+    gap: 6px;
+  }
+
+  .vehicle-info-columns-wrapper {
+    display: grid;
+    gap: 6px;
+  }
+
+  .visitor-information-section label, .vehicle-information-section label {
+    font-size: 14px;
+  }
+
+  .visitor-info-column input, .vehicle-info-column input, .schedule-req-div input {
+    width: 100%;
+  }
+
+  .vehicle-radio-label {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 300;
+    /* font-size: 27px; */
+    color: #003673;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+.schedule-req-div label {
+  font-size: 14px;
+}
+  .contact-us-section {
+    padding: 10px 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: auto;
+  }
+
+  .contact-us-section h1 {
+    font-size: 26px;
+  }
+
+  .contact-us-section h1::after {
+    content: "";
+    display: block;
+    width: 290px;
+    height: 3px;
+    background-color: #003366;
+    margin: -2px auto 17px;
+    margin-bottom: 15px;
+  }
+
+  .contact-us-container {
+    padding: 10px 15px;
+    height: auto;
+    margin-top: 20px;
+  }
+
+  .contact-visitor input {
+    border: 0.2px solid #003673;
+    border-radius: 10px;
+    padding: 5px;
+    height: 42px;
+    width: 100%;
+    margin-bottom: 15px;
+    font-weight: lighter;
+    text-align: left;
+    color: #003673;
+  }
+
+  input[type="file"] {
+    width: 100%;
+  }
+
+  input[type="file"]::file-selector-button {
+    width: 100%;
+  }
+
+#datetime {
+    display: grid;
+    color: #003673;
+    font-weight: 300;
+    font-size: 14px;
+    align-items: center;
+    margin-right: auto;
+    margin-top: 20px;
+    gap: 15px;
+}
+
+  .visitor-counter {
+    margin-left: 10px;
+    margin-right: 10px;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    padding: 10px;
+  }
+
+  .footer-container {
+    background-color: #003366;
+    height: auto;
+    padding: 20px 0;
+  }
+
+  .footer-columns {
+    flex-direction: column;
+    gap: 12px;
+    background-color: #003366;
+    padding: 0 10px;
+    height: 437px;
+  }
+
+  .col {
+    padding-left: 10px;
+    padding-top: 25px;
+    text-align: left;
+  }
+
+  #last-col {
+    margin: 0;
+    padding: 0;
+    background-color: #003366;
+  }
+
+  .col h5 {
+    width: 100%;
+    text-align: left;
+  }
+
+  .right-panel-text2 {
+    width: 100%;
+  }
 }

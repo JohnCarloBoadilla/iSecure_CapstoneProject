@@ -1,16 +1,21 @@
-# TODO: Remove Sidebar CSS from Other CSS Files
+# TODO: Mobile-First Landing Page Refactor
 
 ## Tasks
-- [x] Remove sidebar CSS from stylesheet/visitors.css
-- [x] Remove sidebar CSS from stylesheet/personnels.css
-- [x] Remove sidebar CSS from stylesheet/personnelaccounts.css
-- [x] Remove sidebar CSS from stylesheet/personinformation.css
-- [x] Remove sidebar CSS from stylesheet/livefeed.css
-- [x] Remove sidebar CSS from stylesheet/pendings.css
-- [x] Remove sidebar CSS from stylesheet/inventory.css
-- [x] Remove sidebar CSS from stylesheet/cameraview.css
-- [x] Remove sidebar CSS from stylesheet/customizelanding.css
-- [x] Remove sidebar CSS from stylesheet/admin_maindashboard.css
+- [x] Restructure stylesheet/style.css to mobile-first approach:
+  - Move mobile-friendly styles to base (no media query)
+  - Add @media (min-width: 768px) for tablets
+  - Add @media (min-width: 1024px) for desktops
+- [x] Adjust header layout for mobile stacking and desktop row
+- [x] Adjust navigation for vertical on mobile, horizontal on desktop
+- [x] Adjust About Us section padding and font sizes for mobile and desktop
+- [x] Stack Vision & Mission cards on mobile, row on desktop
+- [x] Make News section single column on mobile, two columns on desktop
+- [x] Stack visitation form inputs on mobile, side-by-side on desktop
+- [x] Stack Contact Us info on mobile, column layout on desktop
+- [x] Stack footer columns on mobile, row layout on desktop
+- [x] Add hamburger menu toggle for navigation on mobile
 
 ## Followup
-- Test the application to ensure sidebar functionality remains intact via stylesheet/sidebar.css
+- Test responsiveness on multiple screen sizes
+- Verify no visual regressions on desktop
+- Update documentation if needed

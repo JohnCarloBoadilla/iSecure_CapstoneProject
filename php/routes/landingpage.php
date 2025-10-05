@@ -57,6 +57,8 @@ if ($token) {
     <div class="phaf-logo"><img src="..\..\images\logo\Philippine Airforce - Logo.png" alt="PHAF Logo"></div>
     <div class="bagongpilipinas-logo"><img src="..\..\images\logo\Bagong Pilipinas - Logo.png" alt="Bagong Pilipinas Logo"></div>
   </div>
+
+
 </div>
 
     <div class="breadcrumb">
@@ -276,7 +278,7 @@ if ($token) {
   <!-- Vehicle Info (Optional) -->
   <h3 style="display: none;" class="vehicle-info-title">Vehicle Information:</h3>
   <div class="vehicle-information-section" style="display: none;">
-    <div class="vehicle-info-columns-wrapper" style="display: flex; gap: 20px; width: 100%;">
+    <div class="vehicle-info-columns-wrapper">
       <div class="vehicle-info-column">
         <label>Vehicle Driver:
           <input type="text" name="vehicle_owner" placeholder="Driver name" readonly>
