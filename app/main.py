@@ -2,7 +2,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from app.services.face_recog.face_service import recognize_face, compare_faces, real_time_compare_faces
-from app.services.vehicle_recog.vehicle_services import detect_vehicle_plate, detect_vehicle_color
+from app.services.vehicle_recog.vehicle_services import detect_vehicle_plate
 from app.services.ocr.ocr_services import extract_id_info
 from app.config import camera
 import asyncio
@@ -60,9 +60,7 @@ async def real_time_compare_faces_endpoint(file: UploadFile = File(...), selfie_
 async def recognize_vehicle(file: UploadFile = File(...)):
     try:
         plate = await asyncio.get_event_loop().run_in_executor(executor, detect_vehicle_plate, file)
-        file.file.seek(0)
-        color = await asyncio.get_event_loop().run_in_executor(executor, detect_vehicle_color, file)
-        return {"plate_number": plate, "color": color}
+        return {"plate_number": plate}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -103,3 +101,19 @@ def get_single_frame():
     blank = cv2.zeros((480, 640, 3), dtype=np.uint8)
     ret, buffer = cv2.imencode('.jpg', blank)
     return Response(content=buffer.tobytes(), media_type='image/jpeg')
+
+@app.get("/camera/recognize_face")
+def recognize_face_endpoint():
+    try:
+        result = camera.recognize_face()
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/camera/recognize_vehicle")
+def recognize_vehicle_endpoint():
+    try:
+        result = camera.recognize_vehicle()
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

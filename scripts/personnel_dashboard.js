@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function fetchNotifications() {
-    fetch('fetch_notifications.php')
+    fetch('fetch_notification.php')
         .then(response => response.json())
         .then(data => {
             if (data.error) {
@@ -38,8 +38,8 @@ function displayNotifications(notifications) {
     const fullList = document.getElementById('full-notification-list');
 
     if (notifications.length === 0) {
-        list.innerHTML = '<div class="notification-item">No notifications</div>';
-        fullList.innerHTML = '<p>No notifications</p>';
+        if (list) list.innerHTML = '<div class="notification-item">No notifications</div>';
+        if (fullList) fullList.innerHTML = '<p>No notifications</p>';
         return;
     }
 
@@ -65,8 +65,8 @@ function displayNotifications(notifications) {
         `;
     });
 
-    list.innerHTML = listHtml;
-    fullList.innerHTML = fullHtml;
+    if (list) list.innerHTML = listHtml;
+    if (fullList) fullList.innerHTML = fullHtml;
 }
 
 function markNotificationsAsRead() {

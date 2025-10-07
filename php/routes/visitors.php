@@ -294,14 +294,44 @@ if (!empty($session['user_id'])) {
             </div>
           </div>
           <div class="tab-pane fade" id="facial" role="tabpanel" aria-labelledby="facial-tab">
-            <div id="facialRecognitionContainer" style="min-height: 200px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 15px;">
-              <!-- Facial recognition feature under development -->
+            <div id="facialRecognitionContainer" style="min-height: 200px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 15px; padding: 15px;">
+              <div id="facialResult" style="margin-bottom: 15px;"></div>
+              <div class="row">
+                <div class="col-md-6">
+                  <h5>Visitor Selfie</h5>
+                  <img id="facialSelfie" src="" alt="Selfie" style="width: 100%; height: 300px; object-fit: cover; border: 1px solid #ccc; border-radius: 8px;">
+                </div>
+                <div class="col-md-6">
+                  <h5>Live Camera</h5>
+                  <div style="position: relative; width: 100%; height: 300px; border: 1px solid #ccc; border-radius: 8px; overflow: hidden;">
+                    <img id="facialCamera" src="http://localhost:8000/camera/frame" alt="Live Camera" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200px; height: 250px; border: 3px solid red; border-radius: 8px; pointer-events: none;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end mt-3">
+                <button id="recognizeFaceBtn" class="btn btn-success">Recognize Face</button>
+              </div>
             </div>
             <button id="nextToVehicle" class="btn btn-primary float-end">Next</button>
           </div>
           <div class="tab-pane fade" id="vehicle" role="tabpanel" aria-labelledby="vehicle-tab">
-            <div id="vehicleRecognitionContainer" style="min-height: 200px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 15px;">
-              <!-- Vehicle license plate recognition feature under development -->
+            <div id="vehicleRecognitionContainer" style="min-height: 200px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 15px; padding: 15px;">
+              <div class="row">
+                <div class="col-md-6">
+                  <h5>Expected Plate Number</h5>
+                  <p id="expectedPlate" style="font-size: 24px; font-weight: bold; text-align: center; padding: 20px; border: 2px solid #007bff; border-radius: 8px; background-color: #f8f9fa;"></p>
+                </div>
+                <div class="col-md-6">
+                  <h5>Live Camera</h5>
+                  <div style="position: relative; width: 100%; height: 240px; border: 1px solid #ccc; border-radius: 8px; overflow: hidden;">
+                    <img id="vehicleCamera" src="http://localhost:8000/camera/frame" alt="Live Camera" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 450px; height: 225px; border: 4px solid red; border-radius: 8px; pointer-events: none;"></div>
+                  </div>
+                </div>
+              </div>
+              <button id="recognizeVehicleBtn" class="btn btn-success mt-3">Recognize Vehicle</button>
+              <div id="vehicleResult" style="margin-top: 15px;"></div>
             </div>
             <button id="skipVehicle" class="btn btn-secondary float-start">Skip</button>
             <button id="nextToId" class="btn btn-primary float-end">Next</button>

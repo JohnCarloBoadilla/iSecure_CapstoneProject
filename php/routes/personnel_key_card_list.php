@@ -54,6 +54,7 @@ $badges = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="../../images/logo/5thFighterWing-logo.png">
     <link rel="stylesheet" href="../../stylesheet/personnel_dashboard.css" />
     <link rel="stylesheet" href="../../stylesheet/sidebar.css" />
 </head>
@@ -135,7 +136,7 @@ $badges = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
     </div>
 </div>
-<script src="../../scripts/sidebar.js"></script>
+<script src="../../scripts/sidebar_personnel.js"></script>
 <script src="../../scripts/personnel_dashboard.js"></script>
 <script src="../../scripts/session_check.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

@@ -4,14 +4,9 @@ import json
 from fastapi import UploadFile
 from app.db import get_db_connection
 import cv2
-
 import os
-import json
-import numpy as np
-import face_recognition
-from fastapi import UploadFile
-from app.db import get_db_connection
-import cv2
+
+
 
 def get_all_visitors_encodings():
     conn = get_db_connection()

@@ -12,12 +12,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const logoutLink = document.getElementById("logout-link");
   const idTabImage = document.getElementById("idTabImage");
   const ocrContent = document.getElementById("ocrContent");
+  const recognizeFaceBtn = document.getElementById("recognizeFaceBtn");
+  const recognizeVehicleBtn = document.getElementById("recognizeVehicleBtn");
+  const facialResult = document.getElementById("facialResult");
+  const vehicleResult = document.getElementById("vehicleResult");
 
   const expectedVisitorsTbody = document.querySelector("#expectedVisitorsTable tbody");
   const insideVisitorsTbody = document.querySelector("#insideVisitorsTable tbody");
   const exitedVisitorsTbody = document.querySelector("#exitedVisitorsTable tbody");
 
   let currentVisitorId = null;
+  let currentSelfiePath = null;
 
   // ----- Helper Functions -----
   function escapeHtml(s) {
@@ -76,9 +81,12 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("visitorIDPhoto").src = visitor.id_photo_path;
       document.getElementById("visitorSelfie").src = visitor.selfie_photo_path;
       document.getElementById("vehiclePhoto").src = visitor.vehicle_photo_path || '';
+      document.getElementById("facialSelfie").src = visitor.selfie_photo_path;
+      document.getElementById("expectedPlate").textContent = visitor.plate_number || '';
       idTabImage.src = visitor.id_photo_path;
 
-    currentVisitorId = visitor.id;
+      currentVisitorId = visitor.id;
+      currentSelfiePath = visitor.selfie_photo_path;
 
     // Show/Hide tabs based on status
     const verifyTabBtn = document.querySelector('#visitorTab button[data-bs-target="#verify"]');
@@ -250,6 +258,52 @@ document.addEventListener("DOMContentLoaded", () => {
   logoutLink?.addEventListener("click", () => {
     if (confirm("Are you sure you want to log out?")) {
       window.location.href = "logout.php";
+    }
+  });
+
+
+
+  recognizeFaceBtn?.addEventListener("click", async () => {
+    if (!currentSelfiePath) {
+      facialResult.innerHTML = `<div class="alert alert-danger">No selfie path available.</div>`;
+      return;
+    }
+    facialResult.innerHTML = "Processing...";
+    try {
+      // Fetch the captured frame
+      const frameResponse = await fetch("http://localhost:8000/camera/single_frame");
+      if (!frameResponse.ok) throw new Error("Failed to capture frame");
+      const frameBlob = await frameResponse.blob();
+
+      // Prepare form data
+      const formData = new FormData();
+      formData.append("file", frameBlob, "captured_frame.jpg");
+      formData.append("selfie_path", currentSelfiePath);
+
+      // Send to API
+      const response = await fetch("http://localhost:8000/real_time_compare/faces", {
+        method: "POST",
+        body: formData
+      });
+      const data = await response.json();
+      if (data.match) {
+        facialResult.innerHTML = `<div class="alert alert-success">Faces match! Confidence: ${(data.boxes[0]?.confidence * 100 || 0).toFixed(2)}%</div>`;
+      } else {
+        facialResult.innerHTML = `<div class="alert alert-warning">Faces do not match.</div>`;
+      }
+    } catch (error) {
+      facialResult.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+    }
+  });
+
+  recognizeVehicleBtn?.addEventListener("click", async () => {
+    vehicleResult.innerHTML = "Processing...";
+    try {
+      const response = await fetch("http://localhost:8000/camera/recognize_vehicle");
+      const data = await response.json();
+      vehicleResult.innerHTML = `<div class="alert alert-info">Plate: ${data.plate_number || 'Not detected'}, Color: ${data.color || 'Not detected'}</div>`;
+    } catch (error) {
+      vehicleResult.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
     }
   });
 
