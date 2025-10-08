@@ -289,6 +289,16 @@ if ($role !== 'User') {
             <!-- Details tab content can be repeated or customized if needed -->
           </div>
           <div class="tab-pane fade" id="verify" role="tabpanel" aria-labelledby="verify-tab">
+            <div class="p-3">
+              <h5>Verification Process</h5>
+              <p>Visitors must undergo three verifications to ensure security:</p>
+              <ul>
+                <li><strong>Facial Recognition:</strong> Verify the visitor's identity using facial features.</li>
+                <li><strong>Vehicle Verification (Optional):</strong> Check vehicle details if the visitor has one. This step is optional for visitors without vehicles.</li>
+                <li><strong>ID Verification:</strong> Confirm the validity of the provided identification document.</li>
+              </ul>
+              <p>Please proceed through each verification step.</p>
+            </div>
             <div>
               <button id="nextToFacial" class="btn btn-primary float-end">Next</button>
             </div>
