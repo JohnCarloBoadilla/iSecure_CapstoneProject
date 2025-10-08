@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $request = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($request) {
+                if ($action === 'approve') {
                 // Insert or update vehicle status to Expected only if vehicle data exists
                 if (!empty($request['plate_number'])) {
                     $stmt = $pdo->prepare("
@@ -62,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':selfie'         => $request['selfie_photo_path'] ?? null,
                     ':visit_date'     => $request['visit_date'] ?? date('Y-m-d')
                 ]);
+                }
 
                 // Insert notification for personnel user
                 $stmt = $pdo->prepare("

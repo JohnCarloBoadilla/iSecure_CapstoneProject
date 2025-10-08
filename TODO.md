@@ -1,7 +1,6 @@
-# TODO: Fix 404 Errors in Personnel Dashboard
+# TODO: Make Contact Us Functional in Landing Page
 
-## Tasks
-- [x] Update @import in stylesheet/personnel_dashboard.css to 'admin_maindashboard.css'
-- [x] Update fetch URL in scripts/personnel_dashboard.js to 'fetch_notification.php'
-- [x] Add null checks in displayNotifications to prevent errors when elements are missing
-- [x] Test the application to ensure errors are resolved
+- [ ] Add `contact_messages` table to database
+- [ ] Update landingpage.php to wrap contact inputs in <form> with action="contact_submit.php" method="POST"
+- [ ] Create contact_submit.php to handle form submission, validate data, insert into DB, log action, and redirect
+- [ ] Test the contact form submission

@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-let count = 0;
 const counter = document.getElementById("counter");
 const digits = counter.querySelectorAll("span");
 
@@ -38,9 +37,4 @@ function updateCounter(number) {
   });
 }
 
-setInterval(() => {
-  count++;
-  updateCounter(count);
-}, 5000);
-
-updateCounter(count);
+updateCounter(totalVisits);

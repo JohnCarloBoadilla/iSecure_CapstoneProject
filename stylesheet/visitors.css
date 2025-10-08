@@ -102,6 +102,10 @@ h5 {
     color: #4B5563;
 }
 
+p {
+  color: #4B5563;
+}
+
 /* Add spacing between tables */
 #expectedVisitorsTable {
     margin-bottom: 40px;

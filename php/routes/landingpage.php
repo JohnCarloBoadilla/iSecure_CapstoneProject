@@ -22,6 +22,9 @@ if (!$token) {
 if ($token) {
     log_landing_action($pdo, $token, "Visited landing page");
 }
+
+// Get total visits count
+$totalVisits = $pdo->query("SELECT COUNT(*) FROM landing_audit_logs WHERE action = 'Visited landing page'")->fetchColumn();
 ?>
 
 
@@ -362,7 +365,9 @@ if ($token) {
          
 
             <div class="contact-visitor">
+                <label for=""> Name:</label>
                 <input type="text" placeholder="Name" class="name"><br>
+                <label for=""> Email Address (Optional):</label>
                 <input type="text" placeholder="Email Address (optional)" class="email-add"><br>
                 
             </div>
@@ -383,6 +388,9 @@ if ($token) {
   </div>
 </div>
 
+<script>
+const totalVisits = <?php echo $totalVisits; ?>;
+</script>
 
   <div class="footer-columns">
     <div class="col">
