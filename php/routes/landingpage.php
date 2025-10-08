@@ -372,7 +372,7 @@ $totalVisits = $pdo->query("SELECT COUNT(*) FROM landing_audit_logs WHERE action
                 <input type="email" name="email" placeholder="Email Address (optional)" class="email-add"><br>
 
             </div>
-            <button type="submit" class="send-message">Send Message</button>
+            <button type="submit" class="send-message" onclick="alert('Sending message...')">Send Message</button>
             </form>
 
         </div>
@@ -380,6 +380,7 @@ $totalVisits = $pdo->query("SELECT COUNT(*) FROM landing_audit_logs WHERE action
 
 <div id="contact-notification" style="display:none; position:fixed; top:20px; right:20px; background:green; color:white; padding:10px; border-radius:5px;">Message sent successfully!</div>
 <div id="contact-error" style="display:none; position:fixed; top:20px; right:20px; background:red; color:white; padding:10px; border-radius:5px;">Error sending message. Please try again.</div>
+<div id="contact-sending" style="display:none; position:fixed; top:20px; right:20px; background:blue; color:white; padding:10px; border-radius:5px;">Sending message...</div>
 
   <div class="visitor-counter">
   <span>Total Visitation :</span>
